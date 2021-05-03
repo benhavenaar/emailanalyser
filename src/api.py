@@ -1,5 +1,5 @@
 #import libs
 
-class API
+class API:
 pass
 

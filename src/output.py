@@ -1,5 +1,5 @@
 #import libs
 
-class Output
+class Output:
 pass
 
