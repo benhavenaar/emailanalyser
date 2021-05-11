@@ -4,7 +4,9 @@ from email.parser import HeaderParser
 import email
 import re
 
+#classes
 class Input:
+    #class init variables
     def __init__(self, **kwargs):
         self.file = open(r"..\testmails\test5.eml", encoding="ISO-8859-1")
         self.headermessage = email.message_from_file(self.file)
@@ -14,17 +16,16 @@ class Input:
         self.emailArray = []
         self.ipAddressRegex = re.compile(r'(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})')
         
-    def printHeader(self):
-        for h in self.header.items():
-            print (h)
-            
+    
+    #Append ip addresses found in the email header/body to self.emailArray. 
     def findIPAddress(self):
         for line in self.header.items():
             print (line)
             if self.ipAddressRegex.search(line[1]) == None:
                 pass
             else:
-                self.emailArray.append(self.ipAddressRegex.findall(line[1]))
+                self.emailArray.append(self.ipAddressRegex.findall(line[1])) #use line[1] as it's the 2nd element of the tuple that contains the values
+        
         
 input = Input()
 # print (input.header)
