@@ -1,5 +1,13 @@
-from analyser import Analyser
+from input import Input
+import tkinter as tk
+from tkinter import filedialog
 
-analyser = Analyser()
+#open file dialog
+root = tk.Tk()
+root.withdraw()
+emailFilePath = filedialog.askopenfilename()
 
-analyser.analyse()
+#Input object
+input = Input()
+emailArray = input.findIPAddress(emailFilePath)
+print (emailArray)
