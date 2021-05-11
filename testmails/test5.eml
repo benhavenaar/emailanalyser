@@ -22,7 +22,7 @@ Received: from x104.secure.ne.jp (118.82.76.11) by
  Server id 15.20.3912.17 via Frontend Transport; Sat, 6 Mar 2021 00:31:36
  +0000
 Received: (qmail 85719 invoked from network); 6 Mar 2021 09:31:34 +0900
-Received: from unknown (HELO ?100.120.37.3?) (seto@yamanoishoji.com@212.102.51.233)
+Received: from unknown (HELO?100.234.22.4) (seto@yamanoishoji.com@212.102.51.233)
   by 0 with SMTP; 6 Mar 2021 09:31:34 +0900
 From: Rosa Torres <rosatorres@outlook.my>
 To: me <rosatorres@outlook.my>

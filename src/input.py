@@ -19,14 +19,12 @@ class Input:
             print (h)
             
     def findIPAddress(self):
-        # self.emailArray.append(item for item in self.header.items() if self.ipAddressRegex in item)
         for line in self.header.items():
-            # if line[1].search(self.ipAddressRegex):
-                # print (line)
+            print (line)
             if self.ipAddressRegex.search(line[1]) == None:
                 pass
             else:
-                self.emailArray.append(self.ipAddressRegex.search(line[1]))
+                self.emailArray.append(self.ipAddressRegex.findall(line[1]))
         
 input = Input()
 # print (input.header)
