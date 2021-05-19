@@ -2,17 +2,20 @@
 
 class Analyser:
     def __init__(self):
+        self.ipAddressResults = []
+        self.urlResults = []
+        self.attachmentResults = []
         pass
 #variables
 
 #functions
-    def analyseIP(ipAddressList):
-        pass
+    def analyseIP(self, ipAddressList):
+        return self.ipAddressResults
         
-    def analyseURL(urlList):
-        pass
+    def analyseURL(self, urlList):
+        return self.urlResults
     
-    def analyseAttachments(attachmentList):
-        pass
+    def analyseAttachments(self, attachmentList):
+        return self.attachmentResults
 #loop
 

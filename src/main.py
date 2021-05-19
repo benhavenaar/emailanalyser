@@ -1,4 +1,5 @@
 from input import Input
+from analyser import Analyser
 import tkinter as tk
 from tkinter import filedialog
 
@@ -11,3 +12,6 @@ emailFilePath = filedialog.askopenfilename()
 input = Input()
 emailArray = input.findIPAddress(emailFilePath)
 print (emailArray)
+
+analyser = Analyser()
+analyser.analyseIP(emailArray)

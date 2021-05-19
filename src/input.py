@@ -13,7 +13,9 @@ class Input:
         self.parser = None
         self.header = None
         self.emailArray = []
-        self.ipAddressRegex = re.compile(r'(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})')
+        # self.ipAddressRegex = re.compile(r'(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})')
+        self.ipAddressRegex = re.compile(r'(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)')
+        self.duplicateIPAddresses = {}
          
     def deconstructEmail(self, emailPath):
         self.file = open(emailPath, encoding="ISO-8859-1")
@@ -29,7 +31,14 @@ class Input:
             if self.ipAddressRegex.search(line[1]) == None:
                 pass
             else:
-                self.emailArray.append(self.ipAddressRegex.findall(line[1])) #use line[1] as it's the 2nd element of the tuple that contains the values
+                ipAddressValue = tuple(self.ipAddressRegex.findall(line[1]))
+                for ipAddressValueSplit in ipAddressValue:
+                    if ipAddressValueSplit in self.duplicateIPAddresses:
+                        ipNumber = self.duplicateIPAddresses[ipAddressValueSplit]
+                    else:
+                        self.emailArray.append(ipAddressValueSplit)
+                        self.duplicateIPAddresses[ipAddressValueSplit] = ipNumber = len(self.emailArray)-1
+        # set([self.emailArray])
         return self.emailArray
         
         
