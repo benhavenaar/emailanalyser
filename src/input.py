@@ -15,7 +15,6 @@ class Input:
         self.emailArray = []
         # self.ipAddressRegex = re.compile(r'(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})')
         self.ipAddressRegex = re.compile(r'(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)')
-        self.duplicateIPAddresses = {}
          
     def deconstructEmail(self, emailPath):
         self.file = open(emailPath, encoding="ISO-8859-1")
@@ -24,21 +23,23 @@ class Input:
         self.parser = email.parser.HeaderParser()
         self.header = self.parser.parsestr(self.headermessage.as_string())
    
-    #Append ip addresses found in the email header/body to self.emailArray.
+    #Append ip addresses found in the email header/body to self.emailArray. The for and if/else loop in the first Else part is used to filter out duplicates. 
+    #First the value found is set to a tuple, then the items will be added iterated over (if multiple ip's in one line exist), then it's added to the duplicateIPAddresses
+    #Afterwards if it isn't found in the duplicate list it will be added to self.emailArray. 
     def findIPAddress(self, emailPath):
         self.deconstructEmail(emailPath)
+        duplicateIPAddresses = {}
         for line in self.header.items():
             if self.ipAddressRegex.search(line[1]) == None:
                 pass
             else:
-                ipAddressValue = tuple(self.ipAddressRegex.findall(line[1]))
+                ipAddressValue = self.ipAddressRegex.findall(line[1])
                 for ipAddressValueSplit in ipAddressValue:
-                    if ipAddressValueSplit in self.duplicateIPAddresses:
-                        ipNumber = self.duplicateIPAddresses[ipAddressValueSplit]
+                    if ipAddressValueSplit in duplicateIPAddresses:
+                        ipNumber = duplicateIPAddresses[ipAddressValueSplit]
                     else:
                         self.emailArray.append(ipAddressValueSplit)
-                        self.duplicateIPAddresses[ipAddressValueSplit] = ipNumber = len(self.emailArray)-1
-        # set([self.emailArray])
+                        duplicateIPAddresses[ipAddressValueSplit] = ipNumber = len(self.emailArray)-1
         return self.emailArray
         
         
