@@ -2,6 +2,7 @@ from input import Input
 from analyser import Analyser
 import tkinter as tk
 from tkinter import filedialog
+import json
 
 #open file dialog
 root = tk.Tk()
