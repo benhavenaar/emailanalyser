@@ -1,8 +1,7 @@
-from input import Input
+from inputfile import InputFile
 from analyser import Analyser
 import tkinter as tk
 from tkinter import filedialog
-import json
 
 #open file dialog
 root = tk.Tk()
@@ -10,9 +9,13 @@ root.withdraw()
 emailFilePath = filedialog.askopenfilename()
 
 #Input object
-input = Input()
-emailArray = input.findIPAddress(emailFilePath)
+inputFile = InputFile()
+emailArray = inputFile.findIPAddress(emailFilePath)
 print (emailArray)
 
+test = input("press something to continue")
 analyser = Analyser()
-analyser.analyseIP(emailArray)
+analyser.jsonPrint(analyser.analyseIP(emailArray))
+
+# analyser = Analyser()
+# analyser.analyseIP(['138.128.150.133'])
