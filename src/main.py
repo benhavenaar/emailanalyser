@@ -10,12 +10,12 @@ emailFilePath = filedialog.askopenfilename()
 
 #Input object
 inputFile = InputFile()
-emailArray = inputFile.findIPAddress(emailFilePath)
+emailArray = inputFile.findIPAddressInHeader(emailFilePath)
+urlArray = inputFile.findURLInHeader(emailFilePath)
+# urlBodyArray = inputFile.findURLInBody(emailFilePath)
 print (emailArray)
-
-test = input("press something to continue")
-analyser = Analyser()
-analyser.jsonPrint(analyser.analyseIP(emailArray))
-
+print (urlArray)
+# print (urlBodyArray)
+# test = input("press something to continue")
 # analyser = Analyser()
-# analyser.analyseIP(['138.128.150.133'])
+# analyser.jsonPrint(analyser.analyseIP(emailArray))
