@@ -1,0 +1,874 @@
+Delivered-To: b.havenaar@gmail.com
+Received: by 2002:a05:6a10:f94d:0:0:0:0 with SMTP id el13csp394078pxb;
+        Wed, 26 May 2021 02:32:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJytVwlEQ9oENk9gPWXbYNdMf/vPDvII9XvvQogIuLKrDaD2064XDUzX1GLJRgCmnD1f2XFX
+X-Received: by 2002:a25:c0cd:: with SMTP id c196mr43368932ybf.453.1622021556661;
+        Wed, 26 May 2021 02:32:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1622021556; cv=none;
+        d=google.com; s=arc-20160816;
+        b=VvFPNb0PFvMlmVN0L36sDamltu0auSDkP59yDcSay2grF4KTMnG/ThsQYG1389V+Lp
+         cI4hzGLqWcfR1iRJq7b12ofZPVgT70ZTeR/sc8bgh3pH27DpzOIPk416h0ZU8EDuG3wm
+         LIoPd/i1SD2+H0EkE1Avkp0EiyTm6ROVkvW8i6sV3k4+yzoXLiGNFyQVaAGsJ8zxOYBK
+         USYhglgblkCkyCeGGXdmmB76yT0J42uPziv4mJFDZl9Fv/r4CXqlmpRuenVyA/mkz0/o
+         aRcNERWV/XoMdF1t0+Q5ZtIHf3MvWFWKqDhRHYyBA+YF1Kjaan4hZulTnxGXnuA48eae
+         NnDA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=mm-mail-id:subject:message-id:to:mime-version:from:date
+         :dkim-signature:dkim-signature;
+        bh=ffYgGEhYW6gN4AYQp5XKWl+34LnoeW7xNPKR81QZ0wQ=;
+        b=cLQ8jzTurrGJLU8mHzfFhIEb6M/jKlOdjLkzcuBeSm6bRIyTdoTyQbfXqoJoxFlaQl
+         JI3pEKg+W/cO67gChJUwFRSO16EWvf2efzboFZp3IS50G55bp2+9Spad3qS/9S7KBF96
+         9e0JDdW/k+gsi+HGqEZsleVeRNZuwiye38qe5LZ0xcP8MCO0oPkseUEC9ya++HeWi+R3
+         mxLgt/F28tmrIxPxa1m5vd/8Y7ixaBzXfMPQUFVe/wdw1jeDQAdpmJRsWFLsQ5hygSdd
+         e44GwKDOoyu4EPxi8dwUbSgNw8shlzJGmetnHdvBfptNCA0slgan2Ov4DW7eyI17ODc4
+         pElA==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@magnet.me header.s=s1 header.b=WPWnQw0K;
+       dkim=pass header.i=@sendgrid.info header.s=smtpapi header.b=f6SA8HyD;
+       spf=pass (google.com: domain of bounces+1483008-eabf-b.havenaar=gmail.com@em1.magnet.me designates 50.31.48.127 as permitted sender) smtp.mailfrom="bounces+1483008-eabf-b.havenaar=gmail.com@em1.magnet.me";
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=magnet.me
+Return-Path: <bounces+1483008-eabf-b.havenaar=gmail.com@em1.magnet.me>
+Received: from o1.em.magnet.me (o1.em.magnet.me. [50.31.48.127])
+        by mx.google.com with ESMTPS id l12si19845459ybt.226.2021.05.26.02.32.35
+        for <b.havenaar@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 26 May 2021 02:32:36 -0700 (PDT)
+Received-SPF: pass (google.com: domain of bounces+1483008-eabf-b.havenaar=gmail.com@em1.magnet.me designates 50.31.48.127 as permitted sender) client-ip=50.31.48.127;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@magnet.me header.s=s1 header.b=WPWnQw0K;
+       dkim=pass header.i=@sendgrid.info header.s=smtpapi header.b=f6SA8HyD;
+       spf=pass (google.com: domain of bounces+1483008-eabf-b.havenaar=gmail.com@em1.magnet.me designates 50.31.48.127 as permitted sender) smtp.mailfrom="bounces+1483008-eabf-b.havenaar=gmail.com@em1.magnet.me";
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=magnet.me
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=magnet.me; 
+	h=content-type:from:mime-version:to:subject; s=s1; 
+	bh=ffYgGEhYW6gN4AYQp5XKWl+34LnoeW7xNPKR81QZ0wQ=; b=WPWnQw0KuT4Ma
+	TtDXiArS2Eie1hMdq0Ps3CxmU7II+6vc3mv58rOjOj+0AaY/ubBlV/jPvTimWDj8
+	97eI7mL9PpR7ITYo8wjBNNQBJyd0NdXVnptyTwwxRQdWcfyCAk738Bj9esSoDzfP
+	jOmZLeMHbQ349Iktmb9kbveQpXJBQA=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; 
+	d=sendgrid.info; 
+	h=content-type:from:mime-version:to:subject:x-feedback-id; 
+	s=smtpapi; bh=ffYgGEhYW6gN4AYQp5XKWl+34LnoeW7xNPKR81QZ0wQ=; b=f6
+	SA8HyDGg5KlZnr/LDk2W0CxSFaaL+G+FBg2sUDcQDZnoDAWbeG+ppSKgLQXaHm5x
+	XxX9b+ilOQhdNCDorr1Uc/pL9ZK22Vc2ebeYbG+ae2yS7Wjn5kzJ9eCSHYFWvGIU
+	dHfYepel6LGt0BseSbmMvNHSJJgvAuE6Pmg0E3AUs=
+Received: by filter2589p1mdw1.sendgrid.net with SMTP id filter2589p1mdw1-27294-60AE15B2-8
+        2021-05-26 09:32:34.618702453 +0000 UTC m=+622992.917841176
+Received: from MTQ4MzAwOA (unknown)
+	by geopod-ismtpd-4-1 (SG) with HTTP id TQSPEv97QoeUtD8OSs6_WA
+	Wed, 26 May 2021 09:32:34.491 +0000 (UTC)
+Content-Type: multipart/alternative; boundary=3d8dc00b3e15ce73d00df1fc67727ea881f7116d33025b9597f79889a31e
+Date: Wed, 26 May 2021 09:32:34 +0000 (UTC)
+From: "Roos Mous (ChipSoft BV) via Magnet.me" <no-reply@magnet.me>
+Mime-Version: 1.0
+To: "Ben Havenaar" <b.havenaar@gmail.com>
+Message-ID: <TQSPEv97QoeUtD8OSs6_WA@geopod-ismtpd-4-1>
+Subject: Reminder: don't forget to reply to Roos Mous from ChipSoft BV
+MM-Mail-ID: 6b499dd2-bda1-3681-ae99-1fca7facaef0
+X-SG-EID: Tcxgkz4YaqHxSJ2/if+5gwTfmd64YURIRUZVR+4LE/tO4MrcycUZeIgrJ8mvr5MaeAWYb1yWmlXR/P
+ PuJuz8T6N0AhH3tBnDowl4UHRzebni8yMrK6IO+f4lPAJvV5ARtKOb9pzpWYNNt40OKqpQccjkp469
+ XxQBFedAXjFHLY9bYn3LpY3KsjiIdBBlTJ8Qd7equ717iCDthzOpm3pJyGvGIDIe4l0638FScCnF8y
+ 7WFWD7Sjpb9S+AQRgVB0Tm
+X-SG-ID: Lrwz/R8SJvXMgHtrWddjjCpcbro/T6kk5dJil2zd9KgzOjwsIGQP+rQFyGQVQvpixRBaXKFm2oWtVi
+ 6iHwfrJnUmJ1XYe6ViD3U163Uch5sbCdxhza9HQnfDqncQNPAXt2stH10uUmIaXE1jhyuWnC6ko94O
+ aQP1vNAkcEQLs2Uk0h/mU+vxkPayikn7HTwD
+X-Entity-ID: rHZnHI1CegZkgQ/qj3Xf8A==
+X-Feedback-ID: 1483008:tscPH3Kn9Na92vH0hdiifTai1qO7bxEKL2KUL9QoKgo=:sAhhsyTsaeZrCJKzM1w81qIHPfd8VEpycXAqACTs3gc=:SG
+
+--3d8dc00b3e15ce73d00df1fc67727ea881f7116d33025b9597f79889a31e
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Mime-Version: 1.0
+
+Hi Ben,
+
+Don't forget to reply to the message of Roos Mous from ChipSoft BV about Ca=
+reer Event Zorg ICT. It only takes 2 clicks.
+
+View message @ https://email.magnet.me/routes/messages/1100613?ref=3Demail-=
+PERSONAL_MESSAGES&token=3D0efb21eb2975b7a0078e0b4f45c9d333dbe1d12fcbd4feba8=
+45cfe08514bc587&email=3Db.havenaar%40gmail.com
+
+Career Event Zorg ICT
+ChipSoft BV
+Online
+900 employees
+
+There are 2 other recent messages @ https://email.magnet.me/routes/messages=
+?ref=3Demail-PERSONAL_MESSAGES&token=3D0efb21eb2975b7a0078e0b4f45c9d333dbe1=
+d12fcbd4feba845cfe08514bc587&email=3Db.havenaar%40gmail.com awaiting your r=
+eply. Reply to leave a good impression with these companies.
+
+-----
+
+Magnet.me @ https://magnet.me
+Find a job you love
+
+Manage notification preferences @ https://email.magnet.me/routes/settings/n=
+otifications?ref=3Demail-PERSONAL_MESSAGES&token=3D0efb21eb2975b7a0078e0b4f=
+45c9d333dbe1d12fcbd4feba845cfe08514bc587&email=3Db.havenaar%40gmail.com
+Unsubscribe from notifications about applications and personal messages @ h=
+ttps://api.magnet.me/accounts/email/unsubscribe/PERSONAL_MESSAGES?email=3Db=
+.havenaar%40gmail.com&token=3D0efb21eb2975b7a0078e0b4f45c9d333dbe1d12fcbd4f=
+eba845cfe08514bc587=
+
+--3d8dc00b3e15ce73d00df1fc67727ea881f7116d33025b9597f79889a31e
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset=UTF-8
+Mime-Version: 1.0
+
+<!doctype html> <html lang=3D"en" xmlns=3D"http://www.w3.org/1999/xhtml" xm=
+lns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-microsoft-co=
+m:office:office"> <head> <title> </title> <!--[if !mso]><!-- --> <meta http=
+-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge"> <!--<![endif]--> <meta ht=
+tp-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-8"> <meta nam=
+e=3D"viewport" content=3D"width=3Ddevice-width,initial-scale=3D1"> <style t=
+ype=3D"text/css"> #outlook a { padding:0; }
+          body { margin:0;padding:0;-webkit-text-size-adjust:100%;-ms-text-=
+size-adjust:100%; }
+          table, td { border-collapse:collapse;mso-table-lspace:0pt;mso-tab=
+le-rspace:0pt; }
+          img { border:0;height:auto;line-height:100%; outline:none;text-de=
+coration:none;-ms-interpolation-mode:bicubic; }
+          p { display:block;margin:13px 0; } </style> <!--[if mso]>
+        <xml>
+        <o:OfficeDocumentSettings>
+          <o:AllowPNG/>
+          <o:PixelsPerInch>96</o:PixelsPerInch>
+        </o:OfficeDocumentSettings>
+        </xml>
+        <![endif]--> <!--[if lte mso 11]>
+        <style type=3D"text/css">
+          .mj-outlook-group-fix { width:100% !important; }
+        </style>
+        <![endif]--> <!--[if !mso]><!--> <link href=3D"https://magnet.me/fo=
+nts/css?family=3DSource+Sans+Pro:400,600,700" rel=3D"stylesheet" type=3D"te=
+xt/css"> <style type=3D"text/css"> @import url(https://magnet.me/fonts/css?=
+family=3DSource+Sans+Pro:400,600,700); </style> <!--<![endif]--> <style typ=
+e=3D"text/css"> @media only screen and (min-width:598px) {
+        .mj-column-per-100 { width:100% !important; max-width: 100%; }
+      } </style> <style type=3D"text/css"> [owa] .mj-column-per-100 { width=
+:100% !important; max-width: 100%; } </style> <style type=3D"text/css"> @me=
+dia only screen and (max-width:598px) {
+      table.mj-full-width-mobile { width: 100% !important; }
+      td.mj-full-width-mobile { width: auto !important; }
+    } </style> <style type=3D"text/css">.full-width, .full-width table, .fu=
+ll-width table tbody, .full-width table tbody tr, .full-width table tbody t=
+r td {
+								width: 100%;
+							}
+							.separator {
+								margin-left: 3px;
+								margin-right: 3px;
+								font-size: 12px;
+							}
+							.center {
+								text-align: center !important;
+							}
+							div.left {
+								margin: 0 !important;
+							}
+							.w270 {
+								max-width: 270px !important;
+							}
+							.rounded6 {
+								border-radius: 6px;
+							}
+							@media only screen and (max-width:597px) {
+								.noGutterOnMobile table tbody tr td {
+									padding-left: 0 !important;
+									padding-right: 0 !important;
+								}
+								.noGutterOnMobile table tbody tr td .alternatePadding {
+									padding-left: 12px !important;
+									padding-right: 12px !important;
+								}
+							}
+							.noMargin {
+								Margin: 0 auto;
+							}
+							.borderOnDesktop {
+								Margin: 0px auto;
+								padding-left: 45px;
+								padding-right: 45px;
+							}
+							.bordered-section {
+								overflow: hidden;
+                                border-radius: 9px;
+							}
+							.borderCollapseSeparate table tbody tr td table {
+								border-collapse: separate;
+							}
+							.noBdrTop {
+								border-top: none !important;
+								border-top-width: 0px !important;
+								border-top-left-radius: 0 !important;
+								border-top-right-radius: 0 !important;
+							}
+							.noBdrBottom {
+								border-bottom: none !important;
+								border-bottom-width: 0 !important;
+								border-bottom-left-radius: 0 !important;
+								border-bottom-right-radius: 0 !important;
+							}
+							.no-bdr {
+								border-width: 0 !important;
+							}
+							.bg-gray1 table tbody tr td {
+								background-color: #f5f8fa;
+							}
+							.bg-gray2 table tbody tr td {
+								background-color: #EEF2F5;
+							}
+							.bg-gray3 table tbody tr td {
+								background-color: #e6ecf0;
+							}
+							.bg-gray4 table tbody tr td {
+								background-color: #d9e4eb;
+							}
+							.bg-gray5 table tbody tr td {
+								background-color: #C5D2DB;
+							}
+							.bg-gray6 table tbody tr td {
+								background-color: #9CADBA;
+							}
+							.bg-gray7 table tbody tr td {
+								background-color: #8293a2;
+							}
+							.bg-gray8 table tbody tr td {
+								background-color: #657786;
+							}
+							.bg-gray9 table tbody tr td {
+								background-color: #495a69;
+							}
+							.bdr-gray1 {
+								border: 1px solid #f5f8fa;
+							}
+							.bdr-gray2 {
+								border: 1px solid #EEF2F5;
+							}
+							.bdr-gray3 {
+								border: 1px solid #e6ecf0;
+							}
+							.bdr-gray4 {
+								border: 1px solid #d9e4eb;
+							}
+							.bdr-gray5 {
+								border: 1px solid #C5D2DB;
+							}
+							.bdr-gray6 {
+								border: 1px solid #9CADBA;
+							}
+							.bdr-gray7 {
+								border: 1px solid #8293a2;
+							}
+							.bdr-gray8 {
+								border: 1px solid #657786;
+							}
+							.bdr-gray9 {
+								border: 1px solid #495a69;
+							}
+							@media only screen and (min-width:598px) {
+								.borderOnDesktop {
+									Margin-top: 27px;
+									Margin-bottom: 27px;
+									border: 1px solid #e6ecf0;
+									max-width: 508px;
+									border-radius: 18px;
+								}
+							}
+							:root {
+								color-scheme: light dark;
+								supported-color-schemes: light dark;
+							}
+							.heart-dark-mode table tbody tr td, .heart-dark-mode table tbody tr =
+td img {
+								display: none !important;
+								width: 0px !important;
+								height: 0px !important;
+							}
+							img {
+								max-width: 100%;
+							}
+							table tbody tr td.txt-whiteBg {
+								background-color: #FFFFFF !important;
+							}
+							.fullWidthButton table tbody tr td a {
+								width: 100%;
+							}
+							@media only screen and (prefers-color-scheme:dark) {
+								body {
+									background-color: #283740 !important;
+								}
+								.borderOnDesktop {
+									background-color: #283740 !important;
+									border-color: #8293a2 !important;
+								}
+								.bdr-gray1 {
+									border-color: #495a69 !important;
+								}
+								.bdr-gray2 {
+									border-color: #657786 !important;
+								}
+								.bdr-gray3 {
+									border-color: #8293a2 !important;
+								}
+								.bdr-gray4 {
+									border-color: #9CADBA !important;
+								}
+								.bdr-gray5 {
+									border-color: #C5D2DB !important;
+								}
+								.bdr-gray6 {
+									border-color: #d9e4eb !important;
+								}
+								.bdr-gray7 {
+									border-color: #e6ecf0 !important;
+								}
+								.bdr-gray8 {
+									border-color: #EEF2F5 !important;
+								}
+								.bdr-gray9 {
+									border-color: #f5f8fa !important;
+								}
+								.dvdr-gray1 {
+									border-color: #495a69 !important;
+								}
+								.dvdr-gray2 {
+									border-color: #657786 !important;
+								}
+								.dvdr-gray3 {
+									border-color: #8293a2 !important;
+								}
+								.dvdr-gray4 {
+									border-color: #9CADBA !important;
+								}
+								.dvdr-gray5 {
+									border-color: #C5D2DB !important;
+								}
+								.dvdr-gray6 {
+									border-color: #d9e4eb !important;
+								}
+								.dvdr-gray7 {
+									border-color: #e6ecf0 !important;
+								}
+								.dvdr-gray8 {
+									border-color: #EEF2F5 !important;
+								}
+								.dvdr-gray9 {
+									border-color: #f5f8fa !important;
+								}
+								.bg-gray1 table tbody tr td {
+									background-color: #495a69 !important;
+								}
+								.bg-gray2 table tbody tr td {
+									background-color: #657786 !important;
+								}
+								.bg-gray3 table tbody tr td {
+									background-color: #8293a2 !important;
+								}
+								.bg-gray4 table tbody tr td {
+									background-color: #9CADBA !important;
+								}
+								.bg-gray5 table tbody tr td {
+									background-color: #C5D2DB !important;
+								}
+								.bg-gray6 table tbody tr td {
+									background-color: #d9e4eb !important;
+								}
+								.bg-gray7 table tbody tr td {
+									background-color: #e6ecf0 !important;
+								}
+								.bg-gray8 table tbody tr td {
+									background-color: #EEF2F5 !important;
+								}
+								.bg-gray9 table tbody tr td {
+									background-color: #f5f8fa !important;
+								}
+								table tbody tr td.txt-whiteBg {
+									background-color: #283740 !important;
+								}
+								.span-gray1 {
+									color: #495a69 !important;
+								}
+								.span-gray2 {
+									color: #657786 !important;
+								}
+								.span-gray3 {
+									color: #8293a2 !important;
+								}
+								.span-gray4 {
+									color: #9CADBA !important;
+								}
+								.span-gray5 {
+									color: #C5D2DB !important;
+								}
+								.span-gray6 {
+									color: #d9e4eb !important;
+								}
+								.span-gray7 {
+									color: #e6ecf0 !important;
+								}
+								.span-gray8 {
+									color: #EEF2F5 !important;
+								}
+								.span-gray9 {
+									color: #f5f8fa !important;
+								}
+								.span-black {
+									color: #FFFFFF !important;
+								}
+								.span-green {
+									color: #63C08B !important;=20
+								}
+								.text-black div {
+									color: #FFFFFF !important;
+								}
+								.txt-header1 div { color: #FFFFFF !important; }
+.txt-header2 div { color: #FFFFFF !important; }
+.txt-header3 div { color: #FFFFFF !important; }
+.txt-subheader div { color: #EEF2F5 !important; }
+.txt-body div { color: #FFFFFF !important; }
+.txt-bodyCondensed div { color: #FFFFFF !important; }
+.txt-small div { color: #EEF2F5 !important; }
+.txt-tiny div { color: #EEF2F5 !important; }
+=09=09=09=09=09=09=09=09
+									.btn-primary td { border-color: #FF5C51 !important; }
+									.btn-primary td a { background-color: #FF5C51 !important;
+									color: #FFFFFF !important; }
+
+									.btn-secondary td { border-color: #FF5C51 !important; }
+									.btn-secondary td a { background-color: transparent !important;
+									color: #FF5C51 !important; }
+
+									.btn-default td { border-color: #C5D2DB !important; }
+									.btn-default td a { background-color: transparent !important;
+									color: #EEF2F5 !important; }
+								.subtitle div, .subtitle div a {
+									color: #EEF2F5 !important;
+								}
+								.subtitle div a {
+									color: #EEF2F5 !important;
+								}
+								.heart-light-mode table tbody tr td, .heart-light-mode table tbody =
+tr td img {
+									display: none !important;
+									width: 0px !important;
+									height: 0px !important;
+								}
+								.heart-dark-mode table tbody tr td, .heart-dark-mode table tbody tr=
+ td img {
+									display: block !important;
+									width: 16px !important;
+									height: 16px !important;
+								}
+							}</style> <meta name=3D"color-scheme" content=3D"light dark"><meta n=
+ame=3D"supported-color-schemes" content=3D"light dark"> </head> <body style=
+=3D"background-color:#FFFFFF;"> <div class=3D"borderOnDesktop" style=3D"bac=
+kground-color:#FFFFFF;"> <!--[if mso | IE]>
+      <table
+         align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" =
+class=3D"" style=3D"width:508px;" width=3D"508"
+      >
+        <tr>
+          <td style=3D"line-height:0px;font-size:0px;mso-line-height-rule:e=
+xactly;">
+      <![endif]--> <div style=3D"background:transparent;background-color:tr=
+ansparent;margin:0px auto;max-width:508px;"> <table align=3D"center" border=
+=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"b=
+ackground:transparent;background-color:transparent;width:100%;"> <tbody> <t=
+r> <td style=3D"direction:ltr;font-size:0px;padding:0;padding-bottom:36px;p=
+adding-left:0px;padding-right:0px;padding-top:0px;text-align:center;"> <!--=
+[if mso | IE]>
+                  <table role=3D"presentation" border=3D"0" cellpadding=3D"=
+0" cellspacing=3D"0">
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+        <tr>
+=20=20=20=20=20=20
+            <td
+               class=3D"" style=3D"vertical-align:top;width:508px;"
+            >
+          <![endif]--> <div class=3D"mj-column-per-100 mj-outlook-group-fix=
+" style=3D"font-size:0px;text-align:left;direction:ltr;display:inline-block=
+;vertical-align:top;width:100%;"> <table border=3D"0" cellpadding=3D"0" cel=
+lspacing=3D"0" role=3D"presentation" width=3D"100%"> <tbody> <tr> <td style=
+=3D"vertical-align:top;padding:0;"> <table border=3D"0" cellpadding=3D"0" c=
+ellspacing=3D"0" role=3D"presentation" style=3D"" width=3D"100%"> <tr> <td =
+align=3D"center" style=3D"font-size:0px;padding:0;padding-top:36px;padding-=
+bottom:36px;word-break:break-word;"> <table border=3D"0" cellpadding=3D"0" =
+cellspacing=3D"0" role=3D"presentation" style=3D"border-collapse:collapse;b=
+order-spacing:0px;"> <tbody> <tr> <td style=3D"width:172px;"> <a href=3D"ht=
+tp://em2.magnet.me/ss/c/OVi9IFL9k1CkPl-RcL6GcfIRyYR1D3csh3ylBeUU_8-06mt9ZfU=
+iHyeVRr2k6U88YhKiK-wXtTzsex5p7yrmjb51bAE8XQLg89EE1rDiYI4/3c8/b8gXo2wCTYyHpx=
+DCTnALww/h0/X_wN0sbrgebe1gZgg09E_LHEEZvgYw9JcSIcU0xHb1o" target=3D"_blank">=
+ <img alt=3D"" height=3D"auto" src=3D"https://cdn2.magnet.me/images/logo-20=
+15-full_2x.png" style=3D"border:0;display:block;outline:none;text-decoratio=
+n:none;height:auto;width:100%;font-size:13px;" width=3D"172"> </a> </td> </=
+tr> </tbody> </table> </td> </tr> <tr> <td class=3D"dvdr-gray3" style=3D"fo=
+nt-size:0px;padding:0;padding-top:0px;padding-bottom:0px;word-break:break-w=
+ord;"> <p style=3D"border-top:solid 1px #e6ecf0;font-size:1;margin:0px auto=
+;width:244px;"> </p> <!--[if mso | IE]>
+        <table
+           align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0=
+" style=3D"border-top:solid 1px #e6ecf0;font-size:1;margin:0px auto;width:2=
+44px;" role=3D"presentation" width=3D"244px"
+        >
+          <tr>
+            <td style=3D"height:0;line-height:0;">
+              &nbsp;
+            </td>
+          </tr>
+        </table>
+      <![endif]--> </td> </tr> </table> </td> </tr> </tbody> </table> </div=
+> <!--[if mso | IE]>
+            </td>
+=20=20=20=20=20=20=20=20=20=20
+        </tr>
+=20=20=20=20=20=20
+                  </table>
+                <![endif]--> </td> </tr> </tbody> </table> </div> <!--[if m=
+so | IE]>
+          </td>
+        </tr>
+      </table>
+=20=20=20=20=20=20
+      <table
+         align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" =
+class=3D"" style=3D"width:508px;" width=3D"508"
+      >
+        <tr>
+          <td style=3D"line-height:0px;font-size:0px;mso-line-height-rule:e=
+xactly;">
+      <![endif]--> <div style=3D"background:transparent;background-color:tr=
+ansparent;margin:0px auto;max-width:508px;"> <table align=3D"center" border=
+=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"b=
+ackground:transparent;background-color:transparent;width:100%;"> <tbody> <t=
+r> <td style=3D"direction:ltr;font-size:0px;padding:0;padding-bottom:0px;pa=
+dding-left:0px;padding-right:0px;padding-top:0px;text-align:center;"> <!--[=
+if mso | IE]>
+                  <table role=3D"presentation" border=3D"0" cellpadding=3D"=
+0" cellspacing=3D"0">
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+        <tr>
+=20=20=20=20=20=20
+            <td
+               class=3D"" style=3D"vertical-align:top;width:508px;"
+            >
+          <![endif]--> <div class=3D"mj-column-per-100 mj-outlook-group-fix=
+" style=3D"font-size:0px;text-align:left;direction:ltr;display:inline-block=
+;vertical-align:top;width:100%;"> <table border=3D"0" cellpadding=3D"0" cel=
+lspacing=3D"0" role=3D"presentation" width=3D"100%"> <tbody> <tr> <td style=
+=3D"vertical-align:top;padding:0;"> <table border=3D"0" cellpadding=3D"0" c=
+ellspacing=3D"0" role=3D"presentation" style=3D"" width=3D"100%"> <tr> <td =
+align=3D"left" class=3D"txt-body" style=3D"font-size:0px;padding:0;padding-=
+bottom:18px;word-break:break-word;"> <div style=3D"font-family:Source Sans =
+Pro, Helvetica, sans-serif;font-size:16px;font-weight:400;line-height:24px;=
+text-align:left;color:#283740;">Hi Ben,</div> </td> </tr> <tr> <td align=3D=
+"left" class=3D"txt-body" style=3D"font-size:0px;padding:0;padding-bottom:2=
+7px;word-break:break-word;"> <div style=3D"font-family:Source Sans Pro, Hel=
+vetica, sans-serif;font-size:16px;font-weight:400;line-height:24px;text-ali=
+gn:left;color:#283740;">=E2=80=8CDon&#x27;t forget to reply to the message =
+of Roos Mous from ChipSoft BV about Career Event Zorg ICT=E2=80=8C.=E2=80=
+=8C It only takes 2 clicks.</div> </td> </tr> <tr> <td align=3D"left" verti=
+cal-align=3D"middle" class=3D"btn-primary" style=3D"font-size:0px;padding:0=
+;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;word=
+-break:break-word;"> <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0=
+" role=3D"presentation" style=3D"border-collapse:separate;line-height:100%;=
+"> <tr> <td align=3D"center" bgcolor=3D"#FF5C51" role=3D"presentation" styl=
+e=3D"border:1px solid #FF5C51;border-radius:6px;cursor:auto;mso-padding-alt=
+:9px 18px;background:#FF5C51;" valign=3D"middle"> <a href=3D"http://em2.mag=
+net.me/ss/c/C__z0uvm_Oz1VNUeGdGUxcxliMdDFPdQSZXYcZ8vJ_YruK0vLkLkoKN69k0FVPH=
+541fsaHe7O1REns0wl_UUtjRR8Ee5gbtl18KrQoT7FQF4EOeg5gk3YxoZ3TVaqP5xSmRmBV4P2b=
+JAUK2NvTGS94dD_k7uGZ2bnqDZrV0wnl-eVu1caTl9yohzpK6jj5RUJ-am-kBq07vFq8prN7RuK=
+wcwrXjLmGg2MxsSgpofqPcblvS8ZmUVbN5uzilZ62Us/3c8/b8gXo2wCTYyHpxDCTnALww/h1/M=
+kXM1HuB78V-NcoLZCF5zIO4R4cZuYaOBj5U49hzkq8" style=3D"display:inline-block;b=
+ackground:#FF5C51;color:#FFFFFF;font-family:Source Sans Pro, Helvetica, san=
+s-serif;font-size:16px;font-weight:600;line-height:24px;margin:0;text-decor=
+ation:none;text-transform:none;padding:9px 18px;mso-padding-alt:0px;border-=
+radius:6px;" target=3D"_blank"> View message </a> </td> </tr> </table> </td=
+> </tr> </table> </td> </tr> </tbody> </table> </div> <!--[if mso | IE]>
+            </td>
+=20=20=20=20=20=20=20=20=20=20
+        </tr>
+=20=20=20=20=20=20
+                  </table>
+                <![endif]--> </td> </tr> </tbody> </table> </div> <!--[if m=
+so | IE]>
+          </td>
+        </tr>
+      </table>
+=20=20=20=20=20=20
+      <table
+         align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" =
+class=3D"" style=3D"width:508px;" width=3D"508"
+      >
+        <tr>
+          <td style=3D"line-height:0px;font-size:0px;mso-line-height-rule:e=
+xactly;">
+      <![endif]--> <div style=3D"margin:0px auto;max-width:508px;"> <table =
+align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"p=
+resentation" style=3D"width:100%;"> <tbody> <tr> <td style=3D"direction:ltr=
+;font-size:0px;padding:0;text-align:center;"> <!--[if mso | IE]>
+                  <table role=3D"presentation" border=3D"0" cellpadding=3D"=
+0" cellspacing=3D"0">
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+        <tr>
+=20=20=20=20=20=20
+            <td
+               class=3D"" style=3D"vertical-align:top;width:508px;"
+            >
+          <![endif]--> <div class=3D"mj-column-per-100 mj-outlook-group-fix=
+" style=3D"font-size:0px;text-align:left;direction:ltr;display:inline-block=
+;vertical-align:top;width:100%;"> <table border=3D"0" cellpadding=3D"0" cel=
+lspacing=3D"0" role=3D"presentation" width=3D"100%"> <tbody> <tr> <td style=
+=3D"vertical-align:top;padding:0;"> <table border=3D"0" cellpadding=3D"0" c=
+ellspacing=3D"0" role=3D"presentation" style=3D"" width=3D"100%"> <tr> <td =
+style=3D"font-size:0px;padding:0;word-break:break-word;"> <!--[if mso | IE]>
+=20=20=20=20
+        <table role=3D"presentation" border=3D"0" cellpadding=3D"0" cellspa=
+cing=3D"0"><tr><td height=3D"36" style=3D"vertical-align:top;height:36px;">
+=20=20=20=20=20=20
+    <![endif]--> <div style=3D"height:36px;"> &nbsp; </div> <!--[if mso | I=
+E]>
+=20=20=20=20
+        </td></tr></table>
+=20=20=20=20=20=20
+    <![endif]--> </td> </tr> </table> </td> </tr> </tbody> </table> </div> =
+<!--[if mso | IE]>
+            </td>
+=20=20=20=20=20=20=20=20=20=20
+        </tr>
+=20=20=20=20=20=20
+                  </table>
+                <![endif]--> </td> </tr> </tbody> </table> </div> <!--[if m=
+so | IE]>
+          </td>
+        </tr>
+      </table>
+=20=20=20=20=20=20
+      <table
+         align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" =
+class=3D"bordered-section-outlook bdr-gray3-outlook" style=3D"width:508px;"=
+ width=3D"508"
+      >
+        <tr>
+          <td style=3D"line-height:0px;font-size:0px;mso-line-height-rule:e=
+xactly;">
+      <![endif]--> <div class=3D"bordered-section bdr-gray3" style=3D"margi=
+n:0px auto;max-width:508px;"> <table align=3D"center" border=3D"0" cellpadd=
+ing=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"width:100%;"> <t=
+body> <tr> <td style=3D"direction:ltr;font-size:0px;padding:0;text-align:ce=
+nter;"> <!--[if mso | IE]>
+                  <table role=3D"presentation" border=3D"0" cellpadding=3D"=
+0" cellspacing=3D"0">
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+        <tr>
+=20=20=20=20=20=20
+            <td
+               class=3D"" style=3D"vertical-align:top;width:508px;"
+            >
+          <![endif]--> <div class=3D"mj-column-per-100 mj-outlook-group-fix=
+" style=3D"font-size:0px;text-align:left;direction:ltr;display:inline-block=
+;vertical-align:top;width:100%;"> <table border=3D"0" cellpadding=3D"0" cel=
+lspacing=3D"0" role=3D"presentation" width=3D"100%"> <tbody> <tr> <td style=
+=3D"vertical-align:top;padding:0;"> <table border=3D"0" cellpadding=3D"0" c=
+ellspacing=3D"0" role=3D"presentation" style=3D"" width=3D"100%"> <tr> <td =
+align=3D"center" class=3D"" style=3D"font-size:0px;padding:0;word-break:bre=
+ak-word;"> <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"=
+presentation" style=3D"border-collapse:collapse;border-spacing:0px;" class=
+=3D"mj-full-width-mobile"> <tbody> <tr> <td style=3D"width:508px;" class=3D=
+"mj-full-width-mobile"> <img height=3D"auto" src=3D"https://customerimages.=
+magnet.me/061183f83db60bb222ba75ba52116f98_1524_667.png?fit=3Dcrop" style=
+=3D"border:0;display:block;outline:none;text-decoration:none;height:auto;wi=
+dth:100%;font-size:13px;" width=3D"508"> </td> </tr> </tbody> </table> </td=
+> </tr> <tr> <td align=3D"left" class=3D"txt-header3" style=3D"font-size:0p=
+x;padding:0;padding-top:18px;padding-right:18px;padding-bottom:18px;padding=
+-left:18px;word-break:break-word;"> <div style=3D"font-family:Source Sans P=
+ro, Helvetica, sans-serif;font-size:16px;font-weight:700;line-height:21px;t=
+ext-align:left;color:#283740;">Career Event Zorg ICT</div> </td> </tr> <tr>=
+ <td align=3D"left" class=3D"" style=3D"background:transparent;font-size:0p=
+x;padding:0px 18px 18px 18px;word-break:break-word;"> <table cellpadding=3D=
+"0" cellspacing=3D"0" width=3D"100%" border=3D"0" style=3D"color:#000000;fo=
+nt-family:Source Sans Pro, Helvetica, sans-serif;font-size:13px;line-height=
+:0px;table-layout:auto;width:100%;border:none;"> <tr><td width=3D"54" style=
+=3D"width:54px" valign=3D"top"><img height=3D"36" src=3D"https://customerim=
+ages.magnet.me/80dd29d43afbac98e9ba4219702c9ba8_108_108.png?fit=3Dcanvas" a=
+lt=3D"Avatar" style=3D"border:1px solid #e6ecf0;display:block;outline:none;=
+text-decoration:none;border-radius:3px" class=3D"bdr-gray3" width=3D"36"></=
+td><td valign=3D"middle" style=3D"font-family:Source Sans Pro, Helvetica, s=
+ans-serif;vertical-align:middle"><p style=3D"margin:0px;font-family:Source =
+Sans Pro, Helvetica, sans-serif;line-height:18px"><span style=3D"color:#657=
+786;font-weight:600;font-size:14px" class=3D"span-gray8">ChipSoft BV</span>=
+<br><span style=3D"color:#9CADBA;font-weight:400;font-size:14px" class=3D"s=
+pan-gray6">Online<span class=3D"separator"> =E2=80=A2 </span>900 employees<=
+/span></p></td></tr> </table> </td> </tr> </table> </td> </tr> </tbody> </t=
+able> </div> <!--[if mso | IE]>
+            </td>
+=20=20=20=20=20=20=20=20=20=20
+        </tr>
+=20=20=20=20=20=20
+                  </table>
+                <![endif]--> </td> </tr> </tbody> </table> </div> <!--[if m=
+so | IE]>
+          </td>
+        </tr>
+      </table>
+=20=20=20=20=20=20
+      <table
+         align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" =
+class=3D"" style=3D"width:508px;" width=3D"508"
+      >
+        <tr>
+          <td style=3D"line-height:0px;font-size:0px;mso-line-height-rule:e=
+xactly;">
+      <![endif]--> <div style=3D"background:transparent;background-color:tr=
+ansparent;margin:0px auto;max-width:508px;"> <table align=3D"center" border=
+=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"b=
+ackground:transparent;background-color:transparent;width:100%;"> <tbody> <t=
+r> <td style=3D"direction:ltr;font-size:0px;padding:0;padding-bottom:0px;pa=
+dding-left:0px;padding-right:0px;padding-top:36px;text-align:center;"> <!--=
+[if mso | IE]>
+                  <table role=3D"presentation" border=3D"0" cellpadding=3D"=
+0" cellspacing=3D"0">
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+        <tr>
+=20=20=20=20=20=20
+            <td
+               class=3D"" style=3D"vertical-align:top;width:508px;"
+            >
+          <![endif]--> <div class=3D"mj-column-per-100 mj-outlook-group-fix=
+" style=3D"font-size:0px;text-align:left;direction:ltr;display:inline-block=
+;vertical-align:top;width:100%;"> <table border=3D"0" cellpadding=3D"0" cel=
+lspacing=3D"0" role=3D"presentation" width=3D"100%"> <tbody> <tr> <td style=
+=3D"vertical-align:top;padding:0;"> <table border=3D"0" cellpadding=3D"0" c=
+ellspacing=3D"0" role=3D"presentation" style=3D"" width=3D"100%"> <tr> <td =
+align=3D"left" class=3D"txt-small" style=3D"font-size:0px;padding:0;padding=
+-bottom:0px;word-break:break-word;"> <div style=3D"font-family:Source Sans =
+Pro, Helvetica, sans-serif;font-size:14px;font-weight:400;line-height:21px;=
+text-align:left;color:#657786;"><span>There are <a href=3D"http://em2.magne=
+t.me/ss/c/C__z0uvm_Oz1VNUeGdGUxcxliMdDFPdQSZXYcZ8vJ_aVPmc9bSHylNymEpXXFelZp=
+6V35HMXeO-aM0_Tn8Rfy3q9r6eexajDhlK1MOhEyHDWAK2DvfGIEEkhHseuZBgByGBjRFxzXbx1=
+J6P5fZXib5GJUiYSxEXgDMM0Yx1Mo0HhwQPHGx0YZPnKVATCJPm8ysJ610xRciqLZDiyWaf3faS=
+Ao-SnNw0W5xxuopjL2LA/3c8/b8gXo2wCTYyHpxDCTnALww/h2/FvAF75oamLyyhn1cCzhFWsPx=
+o2TfYlmTrOUGghKtnN4" style=3D"font-weight:600;color:#1DA1F2;text-decoration=
+:none" class=3D"span-blue">2 other recent messages</a> awaiting your reply.=
+</span> Reply to leave a good impression with these companies.</div> </td> =
+</tr> </table> </td> </tr> </tbody> </table> </div> <!--[if mso | IE]>
+            </td>
+=20=20=20=20=20=20=20=20=20=20
+        </tr>
+=20=20=20=20=20=20
+                  </table>
+                <![endif]--> </td> </tr> </tbody> </table> </div> <!--[if m=
+so | IE]>
+          </td>
+        </tr>
+      </table>
+=20=20=20=20=20=20
+      <table
+         align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" =
+class=3D"" style=3D"width:508px;" width=3D"508"
+      >
+        <tr>
+          <td style=3D"line-height:0px;font-size:0px;mso-line-height-rule:e=
+xactly;">
+      <![endif]--> <div style=3D"margin:0px auto;max-width:508px;"> <table =
+align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"p=
+resentation" style=3D"width:100%;"> <tbody> <tr> <td style=3D"direction:ltr=
+;font-size:0px;padding:0;padding-bottom:9px;padding-top:36px;text-align:cen=
+ter;"> <!--[if mso | IE]>
+                  <table role=3D"presentation" border=3D"0" cellpadding=3D"=
+0" cellspacing=3D"0">
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+        <tr>
+=20=20=20=20=20=20
+            <td
+               class=3D"" style=3D"vertical-align:top;width:508px;"
+            >
+          <![endif]--> <div class=3D"mj-column-per-100 mj-outlook-group-fix=
+" style=3D"font-size:0px;text-align:left;direction:ltr;display:inline-block=
+;vertical-align:top;width:100%;"> <table border=3D"0" cellpadding=3D"0" cel=
+lspacing=3D"0" role=3D"presentation" width=3D"100%"> <tbody> <tr> <td style=
+=3D"vertical-align:top;padding:0;"> <table border=3D"0" cellpadding=3D"0" c=
+ellspacing=3D"0" role=3D"presentation" style=3D"" width=3D"100%"> <tr> <td =
+class=3D"dvdr-gray3" style=3D"font-size:0px;padding:0;padding-top:0px;paddi=
+ng-bottom:36px;word-break:break-word;"> <p style=3D"border-top:solid 1px #e=
+6ecf0;font-size:1;margin:0px auto;width:100%;"> </p> <!--[if mso | IE]>
+        <table
+           align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0=
+" style=3D"border-top:solid 1px #e6ecf0;font-size:1;margin:0px auto;width:5=
+08px;" role=3D"presentation" width=3D"508px"
+        >
+          <tr>
+            <td style=3D"height:0;line-height:0;">
+              &nbsp;
+            </td>
+          </tr>
+        </table>
+      <![endif]--> </td> </tr> <tr> <td align=3D"left" class=3D"heart-light=
+-mode" style=3D"font-size:0px;padding:0;word-break:break-word;"> <table bor=
+der=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=
+=3D"border-collapse:collapse;border-spacing:0px;"> <tbody> <tr> <td style=
+=3D"width:16px;"> <img alt=3D"" height=3D"16" src=3D"https://cdn2.magnet.me=
+/images/heart-gray7.png" style=3D"border:0;display:block;outline:none;text-=
+decoration:none;height:16px;width:100%;font-size:13px;" width=3D"16"> </td>=
+ </tr> </tbody> </table> </td> </tr> <tr> <td align=3D"left" class=3D"heart=
+-dark-mode" style=3D"font-size:0px;padding:0;word-break:break-word;"> <tabl=
+e border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" st=
+yle=3D"border-collapse:collapse;border-spacing:0px;"> <tbody> <tr> <td styl=
+e=3D"width:0px;"> <img alt=3D"" height=3D"0" src=3D"https://cdn2.magnet.me/=
+images/heart-gray3.png" style=3D"border:0;display:block;outline:none;text-d=
+ecoration:none;height:0px;width:100%;font-size:13px;" width=3D"0"> </td> </=
+tr> </tbody> </table> </td> </tr> <tr> <td align=3D"left" class=3D"subtitle=
+" style=3D"font-size:0px;padding:0;padding-top:6px;word-break:break-word;">=
+ <div style=3D"font-family:Source Sans Pro, Helvetica, sans-serif;font-size=
+:16px;line-height:24px;text-align:left;color:#657786;"><a href=3D"http://em=
+2.magnet.me/ss/c/OVi9IFL9k1CkPl-RcL6GcZk0nLBS2CkFk_A3EvPQE-2Hfh6qpNfr29rWjZ=
+w4dzQE_GTgs6D4SG7oNVI0NXdNEQ/3c8/b8gXo2wCTYyHpxDCTnALww/h3/VP5HT1ZpVhqvPmtt=
+UoNlf3phAWh2nlgCn-TCmq8p2NQ" style=3D"font-weight:600;color:#657786;text-de=
+coration:none" class=3D"span-gray8">=E2=80=8CMagnet=E2=80=8C.=E2=80=8Cme</a=
+></div> </td> </tr> <tr> <td align=3D"left" class=3D"subtitle" style=3D"fon=
+t-size:0px;padding:0;padding-bottom:9px;word-break:break-word;"> <div style=
+=3D"font-family:Source Sans Pro, Helvetica, sans-serif;font-size:16px;line-=
+height:24px;text-align:left;color:#657786;">Find a job you love</div> </td>=
+ </tr> <tr> <td align=3D"left" style=3D"font-size:0px;padding:0;padding-bot=
+tom:3px;word-break:break-word;"> <div style=3D"font-family:Source Sans Pro,=
+ Helvetica, sans-serif;font-size:14px;line-height:21px;text-align:left;colo=
+r:#000000;"><a href=3D"http://em2.magnet.me/ss/c/C__z0uvm_Oz1VNUeGdGUxcxliM=
+dDFPdQSZXYcZ8vJ_ZwoXHwbf1-DyrAeeFIN2mBfbTFHUXVRuZaFGVzr-KPXD2L_-n4EFQhmiCvR=
+arZPnneOuGskTUo-V3wr5RHPY3Ldz5g-qSanGqc4ABTWqSuy5JLjsJz2r-LpfMuj3m4IsaOjuIi=
+B-XB7272AybRPHzA9vbVEk41K0gEas0bTJRBpmPxeTzP80z5LAA3sQYDKWVDzGROUvmYOqWq__2=
+ch-YO/3c8/b8gXo2wCTYyHpxDCTnALww/h4/lOp59-U3E-HFln-Gjqgj2Aim8mghvN4iVk9vT5b=
+Lu0U" style=3D"font-weight:400;color:#9CADBA;text-decoration:underline" cla=
+ss=3D"span-gray6">Manage notification preferences</a></div> </td> </tr> <tr=
+> <td align=3D"left" style=3D"font-size:0px;padding:0;padding-bottom:36px;w=
+ord-break:break-word;"> <div style=3D"font-family:Source Sans Pro, Helvetic=
+a, sans-serif;font-size:14px;line-height:21px;text-align:left;color:#000000=
+;"><a href=3D"http://em2.magnet.me/ss/c/J7md8NSHYdaBDwnLDnlBe7oExFLFKBHzBNh=
+UC7LEOJZE8051EcBMXfvWZCeSI02G13KuAjEsIsIC-6qPYzdkDgRVGi7M2Tk1oeC_uwxkjHcEsg=
+wMtnVl11fRwqr0Dg0_CSOR5NeeuDHb2wczjNzhXzRG6DBcTCAYLcqJe5vAr4gfl0xR60z-BG7Rv=
+FFm60UxV9obVZm_G6IHXp1r-tP-rfaYsRni6N-LmV_7ZUW5Bs8/3c8/b8gXo2wCTYyHpxDCTnAL=
+ww/h5/MmBs2ibUKEW4cxCJVyaqtmMi_dKbtFjc7Jg_jbDkeMs" style=3D"font-weight:400=
+;color:#9CADBA;text-decoration:underline" class=3D"span-gray6">Unsubscribe =
+from notifications about applications and personal messages</a></div> </td>=
+ </tr> </table> </td> </tr> </tbody> </table> </div> <!--[if mso | IE]>
+            </td>
+=20=20=20=20=20=20=20=20=20=20
+        </tr>
+=20=20=20=20=20=20
+                  </table>
+                <![endif]--> </td> </tr> </tbody> </table> </div> <!--[if m=
+so | IE]>
+          </td>
+        </tr>
+      </table>
+      <![endif]--> </div>=20
+<img src=3D"http://em2.magnet.me/ss/o/lm7FDm60gUSJjMAsyTRBNw/3c8/b8gXo2wCTY=
+yHpxDCTnALww/ho.gif" alt=3D"" width=3D"1" height=3D"1" border=3D"0" style=
+=3D"height:1px !important;width:1px !important;border-width:0 !important;ma=
+rgin-top:0 !important;margin-bottom:0 !important;margin-right:0 !important;=
+margin-left:0 !important;padding-top:0 !important;padding-bottom:0 !importa=
+nt;padding-right:0 !important;padding-left:0 !important;"/>
+</body> </html>
+
+--3d8dc00b3e15ce73d00df1fc67727ea881f7116d33025b9597f79889a31e--
