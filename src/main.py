@@ -17,6 +17,8 @@ print (emailArray)
 # print (urlArray)
 print (urlBodyArray)
 # test = input("press something to continue")
+
 analyser = Analyser()
-# analyser.jsonPrint(analyser.analyseIP(emailArray))
 analyser.jsonPrint(analyser.analyseURL(urlBodyArray))
+# analyser.jsonPrint(inputFile.headerDict)
+
