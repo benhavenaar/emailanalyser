@@ -74,6 +74,7 @@ class InputFile:
         
     def findContentInBody(self, regexFilter, contentArray, content):
         duplicateItems = {}
+        print(content)
         contentValue = regexFilter.findall(content)
         for contentValueSplit in contentValue:
             if contentValueSplit in duplicateItems:

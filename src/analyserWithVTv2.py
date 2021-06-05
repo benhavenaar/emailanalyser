@@ -1,6 +1,5 @@
 #import libs
 import requests
-import constants
 import json
 import base64
 
@@ -9,10 +8,10 @@ class Analyser:
         self.ipAddressResults = []
         self.urlResults = []
         self.attachmentResults = []
-        self.APIKey = constants.VT_API_KEY
         self.url = 'https://www.virustotal.com/vtapi/v2/ip-address/report'
-        self.urlAnalysis = 'https://www.virustotal.com/api/v3/urls/'
-        self.headers = {"x-apikey": self.APIKey}
+        self.urlAnalysis = 'https://www.virustotal.com/api/v3/urls/scan/'
+        self.v2api = 'https://www.virustotal.com/vtapi/v2/url/scan'
+        self.headers = {"x-apikey": '4e5a399bbe79351e8f6533bde32337824bdba3e263e204d8a52849efbdd75e56'}
 #variables
 
 #functions
@@ -25,10 +24,11 @@ class Analyser:
     #function to analyse URLs, it encodes the url in the list to a base64 code and pastes it to the virustotal api url for it to scan it.
     #The returned response is sent back to the object that called this function.    
     def analyseURL(self, urlList):
+        self.proxyData = {'apikey': '4e5a399bbe79351e8f6533bde32337824bdba3e263e204d8a52849efbdd75e56', 'url' : urlList[0] }
         try:
             url_id = base64.urlsafe_b64encode(urlList[0].encode()).decode().strip("=")
-            response = requests.get(self.urlAnalysis+url_id, headers=self.headers)
-            print(response)
+            response = requests.post(self.v2api, data=self.proxyData)
+            print(response.text)
             result = json.loads(response.text)
             result = self.extractUsefulData(result)
             return result

@@ -1,0 +1,184 @@
+Received: from HE1PR10MB1833.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:205:2::38)
+ by AM0PR10MB2340.EURPRD10.PROD.OUTLOOK.COM with HTTPS via
+ AM4PR0302CA0025.EURPRD03.PROD.OUTLOOK.COM; Thu, 3 Jun 2021 12:42:32 +0000
+Received: from AS8PR04CA0027.eurprd04.prod.outlook.com (2603:10a6:20b:310::32)
+ by HE1PR10MB1833.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:7:55::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.23; Thu, 3 Jun
+ 2021 12:42:32 +0000
+Received: from AM5EUR02FT011.eop-EUR02.prod.protection.outlook.com
+ (2603:10a6:20b:310:cafe::df) by AS8PR04CA0027.outlook.office365.com
+ (2603:10a6:20b:310::32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.15 via Frontend
+ Transport; Thu, 3 Jun 2021 12:42:32 +0000
+Received: from HE1EUR02WS015 (2a01:111:f400:7e05::200) by
+ AM5EUR02FT011.mail.protection.outlook.com (2a01:111:e400:7e1c::101) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.18 via Frontend
+ Transport; Thu, 3 Jun 2021 12:42:32 +0000
+X-MS-Exchange-QuarantineResubmitTime: aqxKlbakb8bEyjTEtYNgDPy4i9Qvta/wKEBWPRXJZlT8WnkQYxSohOpsrGZePNEzrlhHK9LWrriD8mwURzGm95hIFjP37Ms5vaKF1olWROXaA5wbLTIyTBCFP7mljBKVNKgN8NdEkuD/gx3oz8gqEqE7JjYXuc7z2hMkVG7X0mtHOQfmDLQVFOrBzDFE6YjDUt/kgfzp5Zc4BFWSyOq5Gq0cHKxdaMY4qDmQxo9+9N+MdvHd9UR7UXzKJvVLaukq
+Delivered-To: ben.havenaar@ordina.nl
+Received: from AM5EUR02FT050.eop-EUR02.prod.protection.outlook.com
+ (2a01:111:e400:7e1c::45) by
+ AM5EUR02HT020.eop-EUR02.prod.protection.outlook.com (2a01:111:e400:7e1c::364)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.18; Wed, 2 Jun
+ 2021 19:21:01 +0000
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com (104.47.12.58) by
+ AM5EUR02FT050.mail.protection.outlook.com (10.152.9.252) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4195.18 via Frontend Transport; Wed, 2 Jun 2021 19:21:00 +0000
+Received: from AS8PR04CA0162.eurprd04.prod.outlook.com (2603:10a6:20b:331::17)
+ by DB8PR10MB2665.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:a8::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.21; Wed, 2 Jun
+ 2021 19:20:58 +0000
+Received: from AM5EUR02FT035.eop-EUR02.prod.protection.outlook.com
+ (2603:10a6:20b:331:cafe::f5) by AS8PR04CA0162.outlook.office365.com
+ (2603:10a6:20b:331::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.15 via Frontend
+ Transport; Wed, 2 Jun 2021 19:20:58 +0000
+Authentication-Results: spf=fail (sender IP is 84.45.73.44)
+ smtp.mailfrom=acessobrasilia.com; ordina.nl; dkim=pass (signature was
+ verified) header.d=acessobrasilia.com;ordina.nl; dmarc=pass action=none
+ header.from=acessobrasilia.com;compauth=pass reason=100
+Received-SPF: Fail (protection.outlook.com: domain of acessobrasilia.com does
+ not designate 84.45.73.44 as permitted sender)
+ receiver=protection.outlook.com; client-ip=84.45.73.44;
+ helo=cup102b.todomr.com;
+Received: from cup102b.todomr.com (84.45.73.44) by
+ AM5EUR02FT035.mail.protection.outlook.com (10.152.8.66) with Microsoft SMTP
+ Server id 15.20.4195.18 via Frontend Transport; Wed, 2 Jun 2021 19:20:58
+ +0000
+Date: Wed, 02 Jun 2021 20:20:57 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=acessobrasilia.com;
+	s=mhv2; t=1622661657;
+	bh=jLd3SMWSVrErBrK5DL3E4AYkfXDuMEQGGCg9HETx5Ds=;
+	h=From:Subject:Reply-To:To:List-ID:List-Unsubscribe;
+	b=LYXIBNGDx7RuASsRTvhpgPwrV9pKi5RIy7sQCtxy7zbuuB1YQwY2I8zGndHGoUFO6
+	 V2wiEbYlsf3zpKNT2K17+vKMAZbXniN33nQav1P/J4V9LuEUafvVYl/pSYG3jpwEIn
+	 UyAT6y4Y69Kmnk4EA2gcYEW6KUxJlNVBUifvI+kg=
+From: Jane Roberts <jane.roberts@acessobrasilia.com>
+Subject: Compelling stories
+Sender: Jane Roberts <jane.roberts@acessobrasilia.com>
+Reply-To: jane.roberts@acessobrasilia.com
+To: <ben.havenaar@ordina.nl>
+Message-Id: <08676830016226616571644@acessobrasilia.com>
+X-Mailer: Auto Mailer
+X-Campaign: 8845
+X-MH-User: CV002082:26768
+List-ID: 9
+List-Unsubscribe: <https://cl.acessobrasilia.com/unsub.php?0000884502082-09-ben.havenaar@ordina.nl-autounscr>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Return-Path: jane.roberts@acessobrasilia.com
+X-MS-Exchange-Organization-ExpirationStartTime: 02 Jun 2021 19:20:58.5192
+ (UTC)
+X-MS-Exchange-Organization-ExpirationStartTimeReason: OriginalSubmit
+X-MS-Exchange-Organization-ExpirationInterval: 1:00:00:00.0000000
+X-MS-Exchange-Organization-ExpirationIntervalReason: OriginalSubmit
+X-MS-Exchange-Organization-Network-Message-Id:
+ 78ce8b23-71a8-4cc4-053e-08d925fb8d2d
+X-EOPAttributedMessage: 1
+X-EOPTenantAttributedMessage: a254b169-0a6b-47f9-af4c-169704421c2e:0
+X-MS-Exchange-Organization-MessageDirectionality: Incoming
+X-MS-PublicTrafficType: Email
+X-MS-Exchange-Organization-AuthSource:
+ AM5EUR02FT035.eop-EUR02.prod.protection.outlook.com
+X-MS-Exchange-Organization-AuthAs: Anonymous
+X-MS-Office365-Filtering-Correlation-Id: 78ce8b23-71a8-4cc4-053e-08d925fb8d2d
+X-MS-TrafficTypeDiagnostic: DB8PR10MB2665:|AM5EUR02HT020:|HE1PR10MB1833:
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-CustomSpam: SPF Record Fail
+X-Forefront-Antispam-Report:
+ CIP:84.45.73.44;CTRY:GB;LANG:en;SCL:-1;SRV:;IPV:NLI;SFV:SKQ;H:cup102b.todomr.com;PTR:cup102b.todomr.com;CAT:HSPM;SFS:(58800400005)(6512007)(3450700001)(4744005)(4006050)(5660300002)(22186003)(75640400001)(98106002)(37786003)(7596003)(44832011)(956004)(6506007)(16799955002)(7116003)(36736006)(356005)(7636003)(7846003)(1096003)(118246002)(6486002)(36756003)(19810500001)(3480700007)(336012)(58226001)(26005)(2616005)(966005)(6916009)(83380400001)(8676002);DIR:INB;
+X-Microsoft-Antispam: BCL:0;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR10MB2665
+X-EopAttribution-RoutedToQuarantineCount: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped:
+ AM5EUR02FT050.eop-EUR02.prod.protection.outlook.com
+X-OriginatorOrg: ordinaweb.onmicrosoft.com
+X-MS-Exchange-Transport-EndToEndLatency: 17:21:34.4940586
+X-MS-Exchange-Processed-By-BccFoldering: 15.20.4173.030
+X-Microsoft-Antispam-Mailbox-Delivery:
+ ucf:0;jmr:0;auth:0;dest:I;ENG:(750129)(520011016)(944506458)(944626604);
+X-Microsoft-Antispam-Message-Info:
+ =?utf-8?B?QVMvZ21DaTBZNUZlYVJOMEtMS3JDdzBmeVd5QmFickhIRlN4OXl6OTJXem9l?=
+ =?utf-8?B?VkVKcUhWM0duOFFUWFhKdTBNbjh6UnUvaXl3S2dKeUp3bVhtUEZCd0g4a3BV?=
+ =?utf-8?B?L1NWYzExaEpzbERmaXhPOS9TbU5VUk1uU3F3c2tZUE1xdnp2ZVJPa1J3cTNk?=
+ =?utf-8?B?WDRqV0VIOFZOQlFSclRNcHltNHN3UU1xaXFPZnJ0WDdiQ2dzc2lDeTRuazVT?=
+ =?utf-8?B?Z0NxdHlZQkVZcS9MOTdPU1pPaDVJckEwM01XNmxaM0IwOUc4WWVjcWloaUZ5?=
+ =?utf-8?B?c2dMZlp0emtIZjEwMGVVU0Fjd28vbWNpUXlZUVRRaGZDSTl1aEpzdzltODNx?=
+ =?utf-8?B?Z3MzMVJINWZ0bTFnUFdrT3pGVGxnUXZyTWFBNU9DcVVTTXpYRCtnY1FhVy8x?=
+ =?utf-8?B?N3pUeUpzYjM2MjQ5LzNHMkJlSmlhdjhWMFprdzRDaEpZeVhvdWUrOVZ5Q3NG?=
+ =?utf-8?B?ZUdqWEgxTWhKSW5hNW5qeVpqZ2ZVdlBPS1ZIeEVaZ2Uxd29SUEJieVBGcE8x?=
+ =?utf-8?B?ODVrNWVVeFp5SWNqWlF3RXUxYkVPRnFUZlF4R3NNZDFjTE5MREpPNnQycldw?=
+ =?utf-8?B?QXY1cFB3QnIrZytoTWN2L0JZS3Y5ckdXMnlnM2JoRGJRbW9Va0x4NUhDUUQx?=
+ =?utf-8?B?OEV4M1UyY3VFaWhLMFpLckQyaEdEeUp4N2FZblp6TGhlQ3ZxcWIrWVUwNGFy?=
+ =?utf-8?B?Ylg4WXFGUmdzMWR1N0p5MnlKYjdjb09YYU5WR1ViVWJrdGh6UFVma0d0Y2ZJ?=
+ =?utf-8?B?Y3ZmZVgxeWwxbDZScUNFMEdzM1NGTk84K1dvOGVCSmY4ZTh1QzVNcEZ1emdy?=
+ =?utf-8?B?ait6cXd0eVYvdjNZRmdUeHJacmF4SDk2Z1NqNDh5SSs0dnhwcHlPL2szUVNq?=
+ =?utf-8?B?Y2VPc04xTE8xUDhNWnN5cnNLV2F3U1k3SFVrN2xidWtXMTNVcXZreTZ5YUp4?=
+ =?utf-8?B?VUNSTzExM2J0c3NPUmJLOUpDRloyYWJRMEVGYXdkUjNOTFQ1MlFMNTZJaXQx?=
+ =?utf-8?B?RElzaXNVMDlWYlcrYXJ1QjM0cDFDL0svd2QvR0JaZEtuWGhJL0ZibTNhaFpt?=
+ =?utf-8?B?bG5LcWtVY21xWWVnaHliVHU4WVNHNmRzKzhXWlR0ZlZOdUlkdVV2TlRtZkZY?=
+ =?utf-8?B?N0Nzb2RQaTU5eUpReDgwU0Mra3NsWnhkRkRTdlZlRDJaUjhwbzRUSVd5aHF0?=
+ =?utf-8?B?UmsxTXpZaFo4ZjloVDFEbEVqNDBPSDQvYVpFd3dZa2tPWXJsVmx5a0Z0SE5y?=
+ =?utf-8?B?R0ZGLzg2MVBhTzUwaStrSmNlTmJjOUhmT0ZFM3FnZnZpVWtPdkNWaTh3a0ZD?=
+ =?utf-8?B?WUxCTldPODd2U1dVTklyNExoK0NxNThhVUEybURVM1lCUzNyem5TQ3RnVFlY?=
+ =?utf-8?B?c3pFMHl1ZndLZit0d3hQSGtnYXVEdXR1OTF3bGxiVkdGejMwV3BwL3NablQ0?=
+ =?utf-8?B?Slh5anptVEkySmFRTFh5aFNMekVwa0crSkYxU3VuZzRKcC9aOVpzZGgrVGgx?=
+ =?utf-8?B?SlAwZkIzblo5OWpTTzNCbTZMVW1lVlNNK25Eb3FHWml4dzE0V3hyb0tpQjZL?=
+ =?utf-8?B?dlQ5OFF0WmJDRzNGMDZ0dmYyQmVnUnlpc0FES043dEpoRHF3NHpQckc0ZU8w?=
+ =?utf-8?B?Z0ozT3duNWUybGpaaVk3bFozbG5kSDFaeTNKVHZYcVFxbEFKSXlmMmlKaGVr?=
+ =?utf-8?B?QWo1MjA4OFRzOUU1d3phV0ZSMGE5S1hWSVBDVkdMZEZrZzE0TW9KWFk5bVI1?=
+ =?utf-8?B?Q3h2eGk5UTR3eDFudW9qQ3dlLzNtVnZaWlhkajZjemRJeGV2SjRLeDl4ZEZY?=
+ =?utf-8?B?RVpOS2dDdFhyOE5sRzlRWk8xZ3dzZzNmYTRqdkQvelRDbWdNZzA4OHlrd21V?=
+ =?utf-8?B?eXl1ajk3Qkt2T3crc2FtMVZyOTM1Ty9SVFNlMmVBR0xRYmhFU2Yrd2xEWnpo?=
+ =?utf-8?B?T1UzQ0FBSTdXdENIWG9JMERQSmd4eHg5RndYVU5ub3UrZGJMSWk2anR1N01v?=
+ =?utf-8?B?dHhoZkpibmlwcVNOS2JYQkl6azJhR3hYRnVlcy95V21hZGxscWhNSndYVEM4?=
+ =?utf-8?B?ZlhuZ2ZtMkRzbUFPSXlTcWxQNGg4bWFKbmtOQmFGaWtiZkpLQTJxRVcwU21L?=
+ =?utf-8?B?VU5hOVA1TittRTZmSDNMRnNyR2IzbVpFVzhXN3gxUTFBVzFFODNXY0RCUUl1?=
+ =?utf-8?B?Z1p4ZmJ3ZzZvMTArV2VkbVVaVlluZXFub3dpejZVckFFMXZrWXh3T0p1bjJF?=
+ =?utf-8?B?c3c3SVNreTdLY0h4UGMydmlYdGM5cmttMUdYT01BN0lMeXFJUVAvYkJqc1lh?=
+ =?utf-8?B?czBiK3dEYVhPbjkrZ3JBSC92N2cvRVRCNzZITlY1d2RSeWJtd2k2L1N5UlJo?=
+ =?utf-8?B?aVVMdjRmdmxzSW9RenVzYmpUaXM2N2NzVUU4akJxL2hkTzVqaWoxY0tSaDRT?=
+ =?utf-8?B?S0toRm1ZZnpXQ0xVSG5GSXR1L3FvR2tvRkRMU0VHbXRINXc2Zk1HRUVIaE1P?=
+ =?utf-8?B?U0NHRnFNWkhuV3B0czdVdDB4WGJTMW5nK2o3VldKa01ZN09oUHh5Tm13dGxE?=
+ =?utf-8?B?TVZqVEJ2cHRDanU4UmlmSHpKMzZxQ1BuSXhmbnhsbSswZm4yWW1MeEdlZ3Nz?=
+ =?utf-8?B?WmlpbzRNQ253Vm9uTjFydUswWVFKUDBjMFc0Mlh6RXg3NTJ5TGZuYnZhTVZh?=
+ =?utf-8?B?d3E2TlplVEZnbFRqS1JUTkQrRUwrUDZ0NU50R1kvRXVvU3NWY1hJSURHNVh0?=
+ =?utf-8?B?ZnpSMWE2OFRHZnF4ZGl0Q3RJMFI4WDdCU3hPUnFXeWtRSkk4WFlQbGdNSzRY?=
+ =?utf-8?B?U2hDVVgvMnh1NDV1T3RiUTRqN1pkUkhZeUo0NlpDRkg4b3l2bEZjVm9DRndH?=
+ =?utf-8?B?eGVCRU1RYlIzMlRLWjZ5T1krRVhZRVRheEZ6TGIrUXU3d1orZkFnS1VkWkJF?=
+ =?utf-8?B?dnZvY2p5KzJjSDNxS3ZSV2xkVkY4OVNXRHhsTGo0OWtLUDFPV2QxRWtiYVNF?=
+ =?utf-8?B?NWtwbU9RWUFYcTE1L1JnQk1kNGpzTEJaSHdqZFNYcDJzU2QyUzJaN0F6S2hK?=
+ =?utf-8?B?bXE5cEdiMWZmMnp4YW80MTI0cU9wemtqRHBzUE1PRDZZMm9uREVMMlB4K1Ny?=
+ =?utf-8?B?V0xVQnNPN3dpRXhoQnVmTTVOcTR3bGtWbHpvTG9YYy9nQWxST05xL2pUN0lv?=
+ =?utf-8?B?QkxoMzRadXpUeERMUEFsOWkxdWYyd1l0YzVET0FvZTAzOWtwZTZrRDY3cFVh?=
+ =?utf-8?B?ZmoyZGdHQVAyQm5maDlFRUh2RlFDdUVXTWlCTTE4SURIbVQ1UFVsTjR0VWlU?=
+ =?utf-8?B?bFNHYk1lQ3J0V29lT3NwR0p3Rk1mV1g0UFB5Z2JRQ2liZDR6QTlZc3RYRjgz?=
+ =?utf-8?B?TmM0dEN2bTE5TEVMeGhyMUxGWG5sZ0hCNVl4NC9Id3NRTXk5QjR1UWJhd3Jz?=
+ =?utf-8?B?TEozb1dreUtDQ2EwYU5TTC9DOWJHRktBMU1zNFR6ZTUvV0I4WlNTNU9LMlpu?=
+ =?utf-8?B?YzI3cEpaUFpza2pCdWRoSzhpV0tvSkZYZ0tFOVh4dTAwRWlDY3ZLQ2JxellZ?=
+ =?utf-8?B?UFBZM1hIbTZlbGhrU29OVXM4UVJMMS90cGs5Q3J6R252SXpXOERhQVhMU210?=
+ =?utf-8?B?VmFQeUk3SU5POVNSVS9EQWtoOHcySG9TYTJDcEZ5Y0I0cGk0cmVrSUpaenJi?=
+ =?utf-8?B?eExNWGVtdEloZ0lDcm81TlYxclZWdEJNOFpndE4zTE4xUVFlK1pRR3ZqR3Nq?=
+ =?utf-8?B?SG8xbXBydXZJSDNQVUs2dndqbGIxUkVrYUhoeFQxbWxKSmZMUHh1WHJkVUtt?=
+ =?utf-8?B?N3lVSUo4R2s2U09XZE9HMFVabEE1MzdZOExvbkV6ZHMvR2l2TGFvL3NQZHZ2?=
+ =?utf-8?Q?Eqdg1ovxIWb9HvU9IClSz0jm7077zgBN+gFyotysFmtMD?=
+MIME-Version: 1.0
+
+Marketers should look beyond the numbers and find "compelling stories" in the data. Is there a positive correlation between marketing programmes and pipeline velocity or deal size? You could couch it like this: potential customers who attended the ABC Webinar moved through the pipeline 7% faster than who didn't and ended up with a contract value 10% higher than average.
+
+
+
+------------------------------------------------------------------------------------------
+UNSUBSCRIBE INFORMATION
+This email was sent to ben.havenaar@ordina.nl, by cav Email ListManager.
+To opt-out of any future messages, please use the url below:-
+https://cl.acessobrasilia.com/unsub.php?0000884502082-09-ben.havenaar@ordina.nl
+We will respect your decision to receive no further emails from us.
+------------------------------------------------------------------------------------------
+
+
