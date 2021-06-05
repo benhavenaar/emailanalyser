@@ -18,7 +18,7 @@ class Analyser:
 #functions
     #AnalyseIP will be deprecated, information extracted from IP addresses doesn't deem to be worth checking.
     def analyseIP(self, ipAddressList):
-        params = {'apikey':'4e5a399bbe79351e8f6533bde32337824bdba3e263e204d8a52849efbdd75e56','ip':ipAddressList[0]}
+        params = {'apikey': self.APIKey,'ip':ipAddressList[0]}
         response = requests.get(self.url, params=params)
         return response.json()['country']
      
