@@ -1,0 +1,2 @@
+To do's prototype:
+- Remove duplicates in URL lists
