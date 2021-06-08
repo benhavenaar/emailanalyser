@@ -72,7 +72,11 @@ class Analyser:
             except IndexError:
                 print("Error: No URL found in body of email")
         
-        return resultList
+        res_list = []
+        for i in range(len(resultList)):
+            if resultList[i] not in resultList[i + 1:]:
+                res_list.append(resultList[i])
+        return res_list
                 
     def analyseAttachments(self, attachmentList):
         return self.attachmentResults

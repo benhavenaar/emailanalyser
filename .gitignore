@@ -6,3 +6,6 @@ menutest.py
 apitesting.py
 *.msg
 *.eml
+*.txt
+
+!requirements.txt
