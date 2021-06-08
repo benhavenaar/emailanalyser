@@ -1,2 +1,12 @@
 To do's prototype:
-- Remove duplicates in URL lists
+- Create output class based on dummy data
+    * concatenate results
+    
+- Extract attachment from mail, scan, and parse results
+
+- Expand menu 
+    * Analyse URLs
+    * Analyse attachment
+    * View results  (?)
+    
+- Scan header for received-spf, authentication-results, dkim-signature, etc.

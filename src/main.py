@@ -26,6 +26,7 @@ while True:
             emailFilePath = filedialog.askopenfilename()
         emailArray = inputFile.findIPAddressInHeader(emailFilePath)
         urlBodyArray = inputFile.findURLInBody(emailFilePath)
+        print(urlBodyArray)
         analyser.jsonPrint(analyser.analyseURL(urlBodyArray))
     elif option == '2':
         exit()

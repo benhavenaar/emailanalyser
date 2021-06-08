@@ -29,17 +29,6 @@ class Analyser:
      
     #function to analyse URLs, it encodes the url in the list to a base64 code and pastes it to the virustotal api url for it to scan it.
     #The returned response is sent back to the object that called this function.    
-    # def analyseURL(self, urlList):
-        # try:
-            # url_id = base64.urlsafe_b64encode(urlList[0].encode()).decode().strip("=")
-            # response = requests.get(self.urlAnalysis+url_id, headers=self.headers)
-            # print(response)
-            # result = json.loads(response.text)
-            # result = self.extractUsefulData(result)
-            # return result
-        # except IndexError:
-            # print("Error: No URL found in body of email")
-    
     def analyseURL(self, urlList, timeout=None):
         resultList = []
         for url in urlList:
@@ -55,17 +44,17 @@ class Analyser:
                 if response.status_code != 200:
                     self._raise_exception(response)
                 
-                url_id = base64.b64encode(url.encode())
-                print("trying to scan: ", self.urlAnalysis + '/{}'.format(url_id.decode().replace('=', '')))
-                response = requests.get(self.urlAnalysis + '/{}'.format(url_id.decode().replace('=', '')),
+                url_id = base64.urlsafe_b64encode(url.encode()).decode().strip("=")
+                print("trying to scan: ", self.urlAnalysis + '/' + url_id)
+                response = requests.get(self.urlAnalysis + '/' + url_id,
                                         headers = self.headers,
                                         timeout=timeout)
                                         
                 if response.status_code != 200: 
                     self._raise_exception(response)
-                    
+                 
                 while not response.json()['data']['attributes']['last_analysis_results']:
-                    response = requests.get(self.urlAnalysis + '/{}'.format(url_id.decode().replace('=', '')),
+                    response = requests.get(self.urlAnalysis + '/' + url_id,
                                             headers=self.headers,
                                             timeout=timeout)
                     print("waiting for response")
@@ -73,15 +62,16 @@ class Analyser:
                 
                 result = json.loads(response.text)
                 resultList.append(self.extractUsefulData(result))
-                # print(resultList)
+                print(url)
+                print(resultList)
                 
             except requests.exceptions.RequestException as error:
                 print(error)
-                # exit(1)
+                exit(1)
             
             except IndexError:
                 print("Error: No URL found in body of email")
-                
+        
         return resultList
                 
     def analyseAttachments(self, attachmentList):
