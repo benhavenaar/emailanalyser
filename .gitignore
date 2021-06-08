@@ -2,5 +2,6 @@ constants.py
 analyserWithVTv2.py
 input2.py
 Hello.eml.txt
+menutest.py
 *.msg
 *.eml

@@ -3,6 +3,7 @@ import win32com.client
 from email.parser import HeaderParser
 import email
 import re
+import base64
 
 #classes
 class InputFile:
@@ -29,15 +30,25 @@ class InputFile:
         self.file.close()
         self.headerParser = email.parser.HeaderParser()
         self.header = self.headerParser.parsestr(self.emailMessage.as_string())
-        for payload in self.emailMessage.get_payload():
-            try:
-                self.body = payload.get_payload()
-            except AttributeError:
-                self.body = self.emailMessage.get_payload()
-        self.body = self.body.replace("=\n", "")
+        if self.emailMessage.is_multipart():  
+            for payload in self.emailMessage.get_payload():
+                try:
+                    self.body = payload.get_payload()
+                    if type(self.body) == list:
+                        self.body = payload.get_payload()
+                except AttributeError:
+                    self.body = self.emailMessage.get_payload()
+        else:
+            self.body = self.emailMessage.get_payload()
+        # self.body = self.getBodyFromEmail(self.emailMessage)
+        if not self.emailMessage["Content-Transfer-Encoding"] == "base64":
+            self.body = self.body.replace("=\n", "")
+        if self.emailMessage["Content-Transfer-Encoding"] == "base64":
+            self.body = self.body.encode('ascii')
+            self.body = base64.b64decode(self.body)
+            self.body = self.body.decode('ascii')
         self.convertToDict(self.header.items(), self.headerDict)
-        # print(self.body)
- 
+    
     #Append ip addresses found in the email header/body to self.emailArray. The for and if/else loop in the first Else part is used to filter out duplicates. 
     #First the value found is set to a tuple, then the items will be added iterated over (if multiple ip's in one line exist), then it's added to the duplicateIPAddresses
     #Afterwards if it isn't found in the duplicate list it will be added to self.emailArray. 
@@ -53,7 +64,7 @@ class InputFile:
         
     def findURLInBody(self, emailPath):
         self.deconstructEmail(emailPath)
-        urlBodyArray = self.findContentInBody(self.urlRegex, self.urlBodyArray, self.body)
+        urlBodyArray = self.findContentInBody(self.urlRegex, self.urlBodyArray, self.body)        
         return urlBodyArray
         
     def findContentInHeader(self, regexFilter, contentArray, content):
@@ -70,11 +81,12 @@ class InputFile:
                         else:
                             contentArray.append(contentValueSplit)
                             duplicateItems[contentValueSplit] = contentNumber = len(contentArray)-1
+        
         return contentArray
         
     def findContentInBody(self, regexFilter, contentArray, content):
         duplicateItems = {}
-        print(content)
+        # print(content)
         contentValue = regexFilter.findall(content)
         for contentValueSplit in contentValue:
             if contentValueSplit in duplicateItems:
@@ -85,9 +97,22 @@ class InputFile:
         print('filtering images entries with .png')
         for filter in self.filterArray:
             contentArray = [item for item in contentArray if filter not in item]
+       
         return contentArray
         
     def convertToDict(self, tuple, dict):
         for a, b in tuple:
             dict.setdefault(a, []).append(b)
         return dict
+        
+    def isBase64(self, sb):
+        try:
+            if isinstance(sb, str):
+                sb_bytes = bytes(sb, 'ascii')
+            elif isinstance(sb, bytes):
+                sb_bytes = sb
+            else:
+                raise ValueError("Argument must be string or bytes")
+            return base64.b64encode(base64.b64decode(sb_bytes)) == sb_bytes
+        except Exception:
+            return False
