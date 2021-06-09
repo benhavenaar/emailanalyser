@@ -45,7 +45,7 @@ class Analyser:
                     self._raise_exception(response)
                 
                 url_id = base64.urlsafe_b64encode(url.encode()).decode().strip("=")
-                print("trying to scan: ", self.urlAnalysis + '/' + url_id)
+                print("\n-----------------------------------\n","trying to scan: ", url)
                 response = requests.get(self.urlAnalysis + '/' + url_id,
                                         headers = self.headers,
                                         timeout=timeout)
@@ -57,13 +57,12 @@ class Analyser:
                     response = requests.get(self.urlAnalysis + '/' + url_id,
                                             headers=self.headers,
                                             timeout=timeout)
-                    print("waiting for response")
+                    print("Waiting for API response...")
                     time.sleep(3)
                 
                 result = json.loads(response.text)
                 resultList.append(self.extractUsefulData(result))
-                print(url)
-                print(resultList)
+                print(self.extractUsefulData(result))
                 
             except requests.exceptions.RequestException as error:
                 print(error)

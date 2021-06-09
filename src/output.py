@@ -84,23 +84,20 @@ class Output:
     def __init__(self): 
         self.textFile = None
         
-    def writeScanResults(self, scanResultList):
-        with open(self.unique_file("scan_results", "txt"), "w") as f:
+    def writeScanResults(self, scanResultList, emailName):
+        with open(self.uniqueFile("scan_results",emailName, "txt"), "w") as f:
+            f.write("Scan results of {}\n--------------------------------------------------\n".format(emailName))
             for i in scanResultList:
-                f.write(str(i))
+                for key, value in i.items():
+                    f.write("{} = {}\n".format(str(key), str(value)))
                 f.write('\n')
             
-    def unique_file(self, basename, ext):
-        actualname = "%s.%s" % (basename, ext)
+    def uniqueFile(self, baseName, emailName, ext):
+        actualName = "%s_%s.%s" % (baseName, emailName, ext)
         c = itertools.count()
-        while os.path.exists(actualname):
-            actualname = "%s (%d).%s" % (basename, next(c), ext)
-        return actualname   
-# res_list = []
-# for i in range(len(dummy_data_list)):
-    # if dummy_data_list[i] not in dummy_data_list[i + 1:]:
-        # res_list.append(dummy_data_list[i])
-# print(dummy_data_list)
-# print(res_list)
-outputTest = Output()
-outputTest.writeScanResults(dummy_data_list)
+        while os.path.exists(actualName):
+            actualName = "%s_%s (%d).%s" % (baseName, emailName, next(c), ext)
+        return actualName   
+
+# outputTest = Output()
+# outputTest.writeScanResults(dummy_data_list, "test")
