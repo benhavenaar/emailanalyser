@@ -2,8 +2,10 @@
 import win32com.client
 from email.parser import HeaderParser
 import email
+from email import policy
 import re
 import base64
+import os
 
 #classes
 class InputFile:
@@ -16,6 +18,10 @@ class InputFile:
         self.bodyParser = None
         self.header = None
         self.body = None
+        self.bodyTest = None
+        self.attachments = None
+        self.outputString = "output"
+        self.outputCount = 0
         self.headerDict = {}
         self.ipAddressHeaderArray = []
         self.urlHeaderArray = []
@@ -26,27 +32,49 @@ class InputFile:
          
     def deconstructEmail(self, emailPath):
         self.file = open(emailPath, encoding="ISO-8859-1")
-        self.emailMessage = email.message_from_file(self.file)
+        self.emailMessage = email.message_from_file(self.file, policy=policy.default)
         self.file.close()
         self.headerParser = email.parser.HeaderParser()
         self.header = self.headerParser.parsestr(self.emailMessage.as_string())
-        if self.emailMessage.is_multipart():  
-            for payload in self.emailMessage.get_payload():
-                try:
-                    self.body = payload.get_payload()
-                    if type(self.body) == list:
+        # if self.emailMessage.is_multipart():  
+            # for payload in self.emailMessage.get_payload():
+                # try:
+                    # self.body = payload.get_payload()
+                    # if type(self.body) == list:
+                        # self.body = payload.get_payload()
+                # except AttributeError:
+                    # self.body = self.emailMessage.get_payload()
+        # else:
+            # self.body = self.emailMessage.get_payload()
+        self.body = self.emailMessage.get_body()
+        # try:
+        try: 
+            self.body = self.body.get_content()
+        except KeyError:
+            self.body = self.body.get_payload()
+            if type(self.body) == list:
+                self.bodyTest = [payload for payload in self.body if "image" not in str(payload["Content-Type"])]
+            if self.emailMessage.is_multipart():  
+                for payload in self.bodyTest:
+                    try:
                         self.body = payload.get_payload()
-                except AttributeError:
-                    self.body = self.emailMessage.get_payload()
-        else:
-            self.body = self.emailMessage.get_payload()
-        # self.body = self.getBodyFromEmail(self.emailMessage)
-        if not self.emailMessage["Content-Transfer-Encoding"] == "base64":
-            self.body = self.body.replace("=\n", "")
-        if self.emailMessage["Content-Transfer-Encoding"] == "base64":
-            self.body = self.body.encode('ascii')
-            self.body = base64.b64decode(self.body)
-            self.body = self.body.decode('ascii')
+                        if type(self.body) == list:
+                            self.body = payload.get_payload()
+                    except AttributeError:
+                        self.body = self.emailMessage.get_payload()
+            else:
+                self.body = self.emailMessage.get_payload()
+        
+        if type(self.body) == list:
+            self.body = self.body[0].get_content()
+        print(self.body)
+        # print(self.body)
+        # print(self.emailMessage.items())
+        # if self.emailMessage["Content-Transfer-Encoding"] == "base64":
+            # print('hallo')
+            # self.body = self.body.encode('ascii')
+            # self.body = base64.b64decode(self.body)
+            # self.body = self.body.decode('ascii')
         self.convertToDict(self.header.items(), self.headerDict)
     
     #Append ip addresses found in the email header/body to self.emailArray. The for and if/else loop in the first Else part is used to filter out duplicates. 
@@ -62,9 +90,9 @@ class InputFile:
         urlHeaderArray = self.findContentInHeader(self.urlRegex, self.urlHeaderArray, self.header.items())
         return urlHeaderArray
         
-    def findURLInBody(self, emailPath):
+    def findURLInBody(self, emailPath, urlBodyArray = []):
         self.deconstructEmail(emailPath)
-        urlBodyArray = self.findContentInBody(self.urlRegex, self.urlBodyArray, self.body)        
+        urlBodyArray = self.findContentInBody(self.urlRegex, self.body)        
         return urlBodyArray
         
     def findContentInHeader(self, regexFilter, contentArray, content):
@@ -84,7 +112,8 @@ class InputFile:
         
         return contentArray
         
-    def findContentInBody(self, regexFilter, contentArray, content):
+    def findContentInBody(self, regexFilter, content, contentArray = []):
+        contentArray.clear()
         duplicateItems = {}
         # print(content)
         contentValue = regexFilter.findall(content)
@@ -99,7 +128,20 @@ class InputFile:
             contentArray = [item for item in contentArray if filter not in item]
        
         return contentArray
-        
+    
+    def getAttachments(self):
+        try:
+            for attachment in self.emailMessage.iter_attachments():
+                outputFileName = attachment.get_filename()
+                if outputFileName:
+                    with open(os.path.join(self.outputString, outputFileName), "wb") as of:
+                        of.write(attachment.get_payload(decode=True))
+                        self.outputCount += 1
+            if self.outputCount == 0:
+                print("No attachment found for file {}".format(self.file))
+        except IOError:
+            print("Problem with {} or one of its attachments.".format(self.file))
+    
     def convertToDict(self, tuple, dict):
         for a, b in tuple:
             dict.setdefault(a, []).append(b)
