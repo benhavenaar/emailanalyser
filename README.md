@@ -18,7 +18,6 @@ This is due to the fact that it automatically downloads attachments and saves it
 Upon closing the program (by selecting option 2) it will delete all downloaded attachments.
 
 ### To do:
-- Collect the list of attachments and analyse/scan these with the API
-... Currently it just downloads the attachments
+- Collect the list of attachments and analyse/scan these with the API. Currently it just downloads the attachments
 - Filter the header contents and retrieve the "received-spf" and "authentication-results" items
 - Clean up the menu/main.py
