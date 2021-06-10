@@ -21,8 +21,6 @@ class InputFile:
         self.body = None
         self.bodyTest = None
         self.attachments = None
-        self.outputString = "output"
-        self.outputCount = 0
         self.headerDict = {}
         self.ipAddressHeaderArray = []
         self.urlHeaderArray = []
@@ -146,18 +144,17 @@ class InputFile:
         file = open(emailPath, encoding="ISO-8859-1")
         emailMessage = email.message_from_file(file, policy=policy.default)
         file.close()
-        # try:
-        for attachment in emailMessage.iter_attachments():
-            outputFileName = attachment.get_filename()
-            if outputFileName:
-                with open(os.path.join('attachments',self.uniqueFile("attachment", outputFileName)), "wb") as of:
-                    of.write(attachment.get_payload(decode=True))
-                    outputCount += 1
-        if outputCount == 0:
-            print("No attachment found for file {}".format(file))
-        
-        # except IOError:
-            # print("Problem with {} or one of its attachments.".format(file))
+        try:
+            for attachment in emailMessage.iter_attachments():
+                outputFileName = attachment.get_filename()
+                if outputFileName:
+                    with open(os.path.join('attachments',self.uniqueFile("attachment", outputFileName)), "wb") as of:
+                        of.write(attachment.get_payload(decode=True))
+                        outputCount += 1
+            if outputCount == 0:
+                print("No attachment found for file {}".format(file))
+        except TypeError as e:
+            print("Problem with {} or one of its attachments. Reason: {}".format(file, e))
         # try:
             # for attachment in emailMessage.iter_attachments():
                 # outputFileName = attachment.get_filename()
@@ -170,11 +167,22 @@ class InputFile:
         # except IOError:
             # print("Problem with {} or one of its attachments.".format(file))
         
-    def uniqueFile(self, baseName, emailName):
-        actualName = "%s_%s" % (baseName, emailName)
+    def uniqueFile(self, baseName, outputName):
+        """Check if the file already exists in the folder. For attachments it's probably better to overwrite files than to keep downloading them.
+        The same function exists in output.py, there this function does work. To fix it, only "attachment/" needs to be added to 
+        while os.path.exists(actualName) -> os.path.exists("attachment/"+actualName)
+        
+        Parameters:
+            baseName (str): basename for the attachment that needs to be saved
+            outputName (str): name of the attachment
+            
+        Returns:
+            actualName (str): the name of the file that needs to be saved.
+        """
+        actualName = "%s_%s" % (baseName, outputName)
         c = itertools.count()
         while os.path.exists(actualName):
-            actualName = "%s_%d_%s" % (baseName, next(c), emailName)
+            actualName = "%s_%d_%s" % (baseName, next(c), outputName)
         return actualName
     
     def convertToDict(self, tuple, dict):
