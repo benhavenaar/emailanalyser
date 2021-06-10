@@ -68,9 +68,13 @@ while True:
         # emailArray = inputFile.findIPAddressInHeader(emailFilePath)
         urlBodyArray = inputFile.findURLInBody(emailFilePath)
         print(urlBodyArray)
-        inputFile.getAttachments(emailFilePath)
-        scanResults = analyser.analyseURL(urlBodyArray)
-        output.writeScanResults(scanResults, emailName)
+        attachmentArray = inputFile.getAttachments(emailFilePath) #send attachmentArray to analyser.py in order to analyse this list
+        if attachmentArray:
+            print("haihai")
+        else:
+            print("derp")
+        # scanResults = analyser.analyseURL(urlBodyArray)
+        # output.writeScanResults(scanResults, emailName)
     elif option == '2':
         deleteDownloadedAttachments()
         exit()

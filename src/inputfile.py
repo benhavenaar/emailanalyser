@@ -133,7 +133,7 @@ class InputFile:
        
         return contentArray
     
-    def getAttachments(self, emailPath, outputCount = 0):
+    def getAttachments(self, emailPath, outputCount = 0, attachmentArray = []):
         """Attachment finder. Under construction.
         Parameters:
             emailPath (os path): Path to the location of the email file
@@ -141,6 +141,7 @@ class InputFile:
         Returns:
             saves attachment to file
         """
+        attachmentArray.clear()
         file = open(emailPath, encoding="ISO-8859-1")
         emailMessage = email.message_from_file(file, policy=policy.default)
         file.close()
@@ -148,6 +149,7 @@ class InputFile:
             for attachment in emailMessage.iter_attachments():
                 outputFileName = attachment.get_filename()
                 if outputFileName:
+                    attachmentArray.append('attachment_'+outputFileName)
                     with open(os.path.join('attachments',self.uniqueFile("attachment", outputFileName)), "wb") as of:
                         of.write(attachment.get_payload(decode=True))
                         outputCount += 1
@@ -155,17 +157,8 @@ class InputFile:
                 print("No attachment found for file {}".format(file))
         except TypeError as e:
             print("Problem with {} or one of its attachments. Reason: {}".format(file, e))
-        # try:
-            # for attachment in emailMessage.iter_attachments():
-                # outputFileName = attachment.get_filename()
-                # if outputFileName:
-                    # with open(os.path.join(self.outputString, outputFileName), "wb") as of:
-                        # of.write(attachment.get_payload(decode=True))
-                        # self.outputCount += 1
-            # if self.outputCount == 0:
-                # print("No attachment found for file {}".format(file))
-        # except IOError:
-            # print("Problem with {} or one of its attachments.".format(file))
+        
+        return attachmentArray
         
     def uniqueFile(self, baseName, outputName):
         """Check if the file already exists in the folder. For attachments it's probably better to overwrite files than to keep downloading them.
