@@ -5,6 +5,7 @@ import json
 import base64
 import errors
 import time
+import os
 
 class Analyser:
     def __init__(self):
@@ -13,7 +14,9 @@ class Analyser:
         self.attachmentResults = []
         self.APIKey = constants.VT_API_KEY
         self.url = 'https://www.virustotal.com/vtapi/v2/ip-address/report'
+        self.fileURL = 'https://www.virustotal.com/api/v3/files'
         self.urlAnalysis = 'https://www.virustotal.com/api/v3/urls'
+        self.getAnalysisURL = 'https://www.virustotal.com/api/v3/analyses'
         self.headers = {"x-apikey": self.APIKey, "Accept": "application/json"}
         self.VirusTotalApiError = errors.VirusTotalApiError
 #variables
@@ -97,7 +100,7 @@ class Analyser:
                 res_list.append(resultList[i])
         return res_list
                 
-    def analyseAttachments(self, attachmentList):
+    def analyseAttachments(self, attachmentList, attachmentIDList = [], timeout=None):
         """
         
         Parameters:
@@ -106,8 +109,85 @@ class Analyser:
         Returns:
             Scan results of the scanned attachment
         """
-        # return self.attachmentResults
-        pass
+        attachmentIDList.clear()
+        # attachmentList = "attachments/" + "scan_results.txt"
+        for attachment in attachmentList: 
+            attachment = 'attachments/' + attachment
+            if not os.path.isfile(attachment):
+                raise Exception("File not found.")
+            
+            file_size = os.path.getsize(attachment)
+            
+            if file_size < 33554432:
+                with open(attachment, 'rb') as f:
+                    data = {'file': f.read()}
+                    
+                    try:
+                        response = requests.post(self.fileURL, 
+                                                headers = self.headers,
+                                                files   = data,
+                                                timeout = timeout)
+                                            
+                        if response.status_code != 200:
+                            self._raise_exception(response)
+                         
+                        attachmentIDList.append(response.json()['data']['id'])
+                        
+                    except requests.exceptions.RequestException as error:
+                        print(error)
+                        exit(1)
+                        
+            if file_size >= 33554432:
+                with open(attachment, 'rb') as f:
+                    data = {'file': f.read()}
+                    
+                    try:
+                        response = requests.get(self.fileURL + '/upload_url',
+                                                headers = self.headers,
+                                                timeout = timeout)
+                                                
+                        if response.status_code != 200:
+                            self._raise_exception(response)
+                            
+                        upload_url = response.json()['data']
+                        
+                        response = response.post(upload_url,
+                                                 headers = self.headers,
+                                                 files   = data,
+                                                 timeout = timeout)
+                                                 
+                        if response.status_code != 200:
+                            self._raise_exception(response)
+                        
+                        attachmentIDList.append(response.json()['data']['id'])
+                        
+                    except requests.exception.RequestException as error:
+                        print(error)
+                        exit(1)
+        
+        print(attachmentIDList)
+        return attachmentIDList
+        
+    def getInfoAttachments(self, attachmentIDList, timeout = None, attachmentScanResultList = []):
+        # testid = 'ZGRlZTU0YWM5MzE2N2UzODg3OTZiZTBjZmU2ZjdkNjM6MTYyMzM1MDA5Mg=='
+        attachmentScanResultList.clear()
+        for attachmentID in attachmentIDList:
+            try:
+                response = requests.get(self.getAnalysisURL + '/{}'.format(attachmentID),
+                                        headers = self.headers,
+                                        timeout = timeout)
+                                        
+                if response.status_code != 200:
+                    self._raise_exception(response)
+               
+                attachmentScanResultList.append(response.json()['data']['attributes']['stats'])
+                
+            except requests.exceptions.RequestException as error:
+                print(error)
+                exit(1)
+        
+        print(attachmentScanResultList)
+        return attachmentScanResultList
     
     #json respone text is a cluttered dict, this function helps to make it more readible. Will be deprecated once final project is done.
     def jsonPrint(self, obj):
