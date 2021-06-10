@@ -14,14 +14,25 @@ attachmentFolder = 'attachments'
 
 #functions
 def clearConsole():
+    """Function that clears the command line. It checks whether the user uses Windows before issuing a command
+    """
     command = 'clear'
     if os.name in ('nt', 'dos'):  # If Machine is running on Windows, use cls
         command = 'cls'
     os.system(command)
     
 def deleteDownloadedAttachments():
+    """Deletes all files from the attachments folder. This is to ensure any malware leaves the system
+    before the prototype is closed. Possible add this whenever the prototype is started as well at a later point in time.
+    
+    Parameters:
+        None
+        
+    Returns:
+        Nothing, files get deleted from ./attachments
+    """
     for filename in os.listdir(attachmentFolder):
-        file_path = os.path.join(folder, filename)
+        file_path = os.path.join(attachmentFolder, filename)
         try:
             if os.path.isfile(file_path) or os.path.islink(file_path):
                 os.unlink(file_path)
@@ -44,7 +55,7 @@ print("/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/")
 while True:
     print("-----------------------------------\n")
     print("1. Analyse email")
-    print("2. Exit\n")
+    print("2. Exit and delete attachments\n")
     option = input("Select an option...\n")
     if option == '1':
         try:
