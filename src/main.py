@@ -70,9 +70,7 @@ while True:
         print(urlBodyArray)
         attachmentArray = inputFile.getAttachments(emailFilePath) #send attachmentArray to analyser.py in order to analyse this list
         if attachmentArray:
-            print("haihai")
-        else:
-            print("derp")
+            analyser.analyseAttachments(attachmentArray) #fill in details of analyseAttachments function in analyser.py
         # scanResults = analyser.analyseURL(urlBodyArray)
         # output.writeScanResults(scanResults, emailName)
     elif option == '2':

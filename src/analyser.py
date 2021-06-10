@@ -106,7 +106,8 @@ class Analyser:
         Returns:
             Scan results of the scanned attachment
         """
-        return self.attachmentResults
+        # return self.attachmentResults
+        pass
     
     #json respone text is a cluttered dict, this function helps to make it more readible. Will be deprecated once final project is done.
     def jsonPrint(self, obj):
