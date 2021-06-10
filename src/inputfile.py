@@ -6,6 +6,7 @@ from email import policy
 import re
 import base64
 import os
+import itertools
 
 #classes
 class InputFile:
@@ -149,10 +150,10 @@ class InputFile:
         for attachment in emailMessage.iter_attachments():
             outputFileName = attachment.get_filename()
             if outputFileName:
-                with open(os.path.join(self.outputString, outputFileName), "wb") as of:
+                with open(os.path.join('attachments',self.uniqueFile("attachment", outputFileName)), "wb") as of:
                     of.write(attachment.get_payload(decode=True))
                     outputCount += 1
-        if self.outputCount == 0:
+        if outputCount == 0:
             print("No attachment found for file {}".format(file))
         
         # except IOError:
@@ -169,6 +170,13 @@ class InputFile:
         # except IOError:
             # print("Problem with {} or one of its attachments.".format(file))
         
+    def uniqueFile(self, baseName, emailName):
+        actualName = "%s_%s" % (baseName, emailName)
+        c = itertools.count()
+        while os.path.exists(actualName):
+            actualName = "%s_%d_%s" % (baseName, next(c), emailName)
+        return actualName
+    
     def convertToDict(self, tuple, dict):
         """A Tuple list of dicts, this is made into a dict in order to parse through the content of the dict based on keys and values
         """

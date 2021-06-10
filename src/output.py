@@ -85,7 +85,7 @@ class Output:
         self.textFile = None
         
     def writeScanResults(self, scanResultList, emailName):
-        with open(self.uniqueFile("scan_results",emailName, "txt"), "w") as f:
+        with open(os.path.join('scanresults',self.uniqueFile("scan_results",emailName, "txt")), "w") as f:
             f.write("Scan results of {}\n--------------------------------------------------\n".format(emailName))
             for i in scanResultList:
                 for key, value in i.items():
@@ -95,7 +95,7 @@ class Output:
     def uniqueFile(self, baseName, emailName, ext):
         actualName = "%s_%s.%s" % (baseName, emailName, ext)
         c = itertools.count()
-        while os.path.exists(actualName):
+        while os.path.exists('scanresults/'+actualName):
             actualName = "%s_%s (%d).%s" % (baseName, emailName, next(c), ext)
         return actualName   
 
