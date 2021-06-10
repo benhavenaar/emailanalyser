@@ -134,21 +134,41 @@ class InputFile:
        
         return contentArray
     
-    def getAttachments(self):
+    def getAttachments(self, emailPath, outputCount = 0):
         """Attachment finder. Under construction.
+        Parameters:
+            emailPath (os path): Path to the location of the email file
+            
+        Returns:
+            saves attachment to file
         """
-        try:
-            for attachment in self.emailMessage.iter_attachments():
-                outputFileName = attachment.get_filename()
-                if outputFileName:
-                    with open(os.path.join(self.outputString, outputFileName), "wb") as of:
-                        of.write(attachment.get_payload(decode=True))
-                        self.outputCount += 1
-            if self.outputCount == 0:
-                print("No attachment found for file {}".format(self.file))
-        except IOError:
-            print("Problem with {} or one of its attachments.".format(self.file))
-    
+        file = open(emailPath, encoding="ISO-8859-1")
+        emailMessage = email.message_from_file(file, policy=policy.default)
+        file.close()
+        # try:
+        for attachment in emailMessage.iter_attachments():
+            outputFileName = attachment.get_filename()
+            if outputFileName:
+                with open(os.path.join(self.outputString, outputFileName), "wb") as of:
+                    of.write(attachment.get_payload(decode=True))
+                    outputCount += 1
+        if self.outputCount == 0:
+            print("No attachment found for file {}".format(file))
+        
+        # except IOError:
+            # print("Problem with {} or one of its attachments.".format(file))
+        # try:
+            # for attachment in emailMessage.iter_attachments():
+                # outputFileName = attachment.get_filename()
+                # if outputFileName:
+                    # with open(os.path.join(self.outputString, outputFileName), "wb") as of:
+                        # of.write(attachment.get_payload(decode=True))
+                        # self.outputCount += 1
+            # if self.outputCount == 0:
+                # print("No attachment found for file {}".format(file))
+        # except IOError:
+            # print("Problem with {} or one of its attachments.".format(file))
+        
     def convertToDict(self, tuple, dict):
         """A Tuple list of dicts, this is made into a dict in order to parse through the content of the dict based on keys and values
         """

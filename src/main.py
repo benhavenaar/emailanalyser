@@ -20,7 +20,7 @@ def clearConsole():
 inputFile = InputFile()
 analyser = Analyser()
 output = Output()
-# clearConsole()
+clearConsole()
 print("\n-----------------------------------")
 print("/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/")
 print("-----------------------------------")
@@ -43,6 +43,7 @@ while True:
         # emailArray = inputFile.findIPAddressInHeader(emailFilePath)
         urlBodyArray = inputFile.findURLInBody(emailFilePath)
         print(urlBodyArray)
+        inputFile.getAttachments(emailFilePath)
         # scanResults = analyser.analyseURL(urlBodyArray)
         # output.writeScanResults(scanResults, emailName)
     elif option == '2':
