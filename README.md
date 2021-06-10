@@ -19,6 +19,6 @@ Upon closing the program (by selecting option 2) it will delete all downloaded a
 
 ### To do:
 - Collect the list of attachments and analyse/scan these with the API
-..* Currently it just downloads the attachments
+...* Currently it just downloads the attachments
 - Filter the header contents and retrieve the "received-spf" and "authentication-results" items
 - Clean up the menu/main.py
