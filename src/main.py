@@ -11,6 +11,7 @@ root.withdraw()
 
 #variables
 attachmentFolder = 'attachments'
+scanResults = {}
 
 #functions
 def clearConsole():
@@ -53,6 +54,7 @@ print("----Ordina Email Analyser Tool-----")
 print("-----------------------------------")
 print("/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/")
 while True:
+    scanResults.clear()
     print("-----------------------------------\n")
     print("1. Analyse email")
     print("2. Exit and delete attachments\n")
@@ -69,11 +71,11 @@ while True:
         urlBodyArray = inputFile.findURLInBody(emailFilePath)
         print(urlBodyArray)
         attachmentArray = inputFile.getAttachments(emailFilePath) #send attachmentArray to analyser.py in order to analyse this list
-        # if attachmentArray:
-            # attachmentIDList = analyser.analyseAttachments(attachmentArray) #fill in details of analyseAttachments function in analyser.py
-            # analyser.getInfoAttachments(attachmentIDList) 
         scanResults = analyser.analyseURL(urlBodyArray)
-        # output.writeScanResults(scanResults, emailName)
+        if attachmentArray:
+            attachmentIDList = analyser.analyseAttachments(attachmentArray) #fill in details of analyseAttachments function in analyser.py
+            for key, value in analyser.getInfoAttachments(attachmentIDList).items():
+                scanResults[key] = value
         # inputFile.getSignatureList(emailFilePath) #gets the authentication-results from header if they exist, otherwise it will retrieve 'received-spf', 'dkim-signature', etc.
         output.writeToCSV(scanResults, emailName)
     elif option == '2':

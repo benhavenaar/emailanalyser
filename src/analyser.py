@@ -171,8 +171,7 @@ class Analyser:
         print(attachmentIDList)
         return attachmentIDList
         
-    def getInfoAttachments(self, attachmentIDList, timeout = None, attachmentScanResultList = []):
-        # testid = 'ZGRlZTU0YWM5MzE2N2UzODg3OTZiZTBjZmU2ZjdkNjM6MTYyMzM1MDA5Mg=='
+    def getInfoAttachments(self, attachmentIDList, timeout = None, attachmentScanResultList = {}):
         attachmentScanResultList.clear()
         for attachmentID in attachmentIDList:
             try:
@@ -183,7 +182,8 @@ class Analyser:
                 if response.status_code != 200:
                     self._raise_exception(response)
                
-                attachmentScanResultList.append(response.json()['data']['attributes']['stats'])
+                attachmentScanResultList['file_'+attachmentID] = response.json()['data']['attributes']['stats']
+                # attachmentScanResultList.append(response.json()['data']['attributes']['stats'])
                 
             except requests.exceptions.RequestException as error:
                 print(error)
@@ -217,13 +217,7 @@ class Analyser:
             Dict of useful response data.
         """
         newDict = {} 
-        # newDict['URL'] = response['data']['attributes']['last_final_url']
-        # newDict['harmless'] = response['data']['attributes']['last_analysis_stats']['harmless']
-        # newDict['malicious'] = response['data']['attributes']['last_analysis_stats']['malicious']
-        # newDict['suspicious'] = response['data']['attributes']['last_analysis_stats']['suspicious']
-        # newDict['undetected'] = response['data']['attributes']['last_analysis_stats']['undetected']
         newDict[response['data']['attributes']['last_final_url']] = response['data']['attributes']['last_analysis_stats']
-        # newDict['last_final_url'] = response['data']['attributes']['last_final_url']
         return(newDict)
         
     def _raise_exception(self, response):
