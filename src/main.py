@@ -69,11 +69,12 @@ while True:
         urlBodyArray = inputFile.findURLInBody(emailFilePath)
         print(urlBodyArray)
         attachmentArray = inputFile.getAttachments(emailFilePath) #send attachmentArray to analyser.py in order to analyse this list
-        if attachmentArray:
-            attachmentIDList = analyser.analyseAttachments(attachmentArray) #fill in details of analyseAttachments function in analyser.py
-            analyser.getInfoAttachments(attachmentIDList) 
-        scanResults = analyser.analyseURL(urlBodyArray)
-        output.writeScanResults(scanResults, emailName)
+        # if attachmentArray:
+            # attachmentIDList = analyser.analyseAttachments(attachmentArray) #fill in details of analyseAttachments function in analyser.py
+            # analyser.getInfoAttachments(attachmentIDList) 
+        # scanResults = analyser.analyseURL(urlBodyArray)
+        # output.writeScanResults(scanResults, emailName)
+        inputFile.getSignatureList(emailFilePath)
     elif option == '2':
         deleteDownloadedAttachments()
         exit()
