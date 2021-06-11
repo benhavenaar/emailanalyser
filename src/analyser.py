@@ -41,7 +41,7 @@ class Analyser:
      
     #function to analyse URLs, it encodes the url in the list to a base64 code and pastes it to the virustotal api url for it to scan it.
     #The returned response is sent back to the object that called this function.    
-    def analyseURL(self, urlList, timeout=None):
+    def analyseURL(self, urlList, timeout=None, newDict = {}):
         """Retrieve information about URLs. If the URL was scanned before it will return the results immediatly.
         If the URL isn't found in the VT database it will scan it. Results may take a few seconds to return. The program will wait for these results
         Multithreading might solve some issue to not wait too long on results.
@@ -85,6 +85,7 @@ class Analyser:
                 
                 result = json.loads(response.text)
                 resultList.append(self.extractUsefulData(result))
+                newDict[response.json()['data']['attributes']['last_final_url']] = response.json()['data']['attributes']['last_analysis_stats']
                 print(self.extractUsefulData(result))
                 
             except requests.exceptions.RequestException as error:
@@ -94,11 +95,13 @@ class Analyser:
             except IndexError:
                 print("Error: No URL found in body of email")
         
-        res_list = []
-        for i in range(len(resultList)):
-            if resultList[i] not in resultList[i + 1:]:
-                res_list.append(resultList[i])
-        return res_list
+        # res_list = []
+        # for i in range(len(resultList)):
+            # if resultList[i] not in resultList[i + 1:]:
+                # res_list.append(resultList[i])
+        # print(newDict)
+        # return res_list
+        return newDict
                 
     def analyseAttachments(self, attachmentList, attachmentIDList = [], timeout=None):
         """
@@ -214,8 +217,13 @@ class Analyser:
             Dict of useful response data.
         """
         newDict = {} 
-        newDict['last_analysis_stats'] = response['data']['attributes']['last_analysis_stats']
-        newDict['last_final_url'] = response['data']['attributes']['last_final_url']
+        # newDict['URL'] = response['data']['attributes']['last_final_url']
+        # newDict['harmless'] = response['data']['attributes']['last_analysis_stats']['harmless']
+        # newDict['malicious'] = response['data']['attributes']['last_analysis_stats']['malicious']
+        # newDict['suspicious'] = response['data']['attributes']['last_analysis_stats']['suspicious']
+        # newDict['undetected'] = response['data']['attributes']['last_analysis_stats']['undetected']
+        newDict[response['data']['attributes']['last_final_url']] = response['data']['attributes']['last_analysis_stats']
+        # newDict['last_final_url'] = response['data']['attributes']['last_final_url']
         return(newDict)
         
     def _raise_exception(self, response):

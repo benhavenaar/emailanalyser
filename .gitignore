@@ -7,5 +7,6 @@ apitesting.py
 *.msg
 *.eml
 *.txt
+*.xlsx
 
 !requirements.txt

@@ -106,7 +106,7 @@ class InputFile:
             if key.lower() == 'authentication-results':
                 signatureListArray.clear()
                 signatureListArray.append((key, value))
-                # break
+                break
                 
         
         print(signatureListArray)

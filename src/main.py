@@ -72,9 +72,10 @@ while True:
         # if attachmentArray:
             # attachmentIDList = analyser.analyseAttachments(attachmentArray) #fill in details of analyseAttachments function in analyser.py
             # analyser.getInfoAttachments(attachmentIDList) 
-        # scanResults = analyser.analyseURL(urlBodyArray)
+        scanResults = analyser.analyseURL(urlBodyArray)
         # output.writeScanResults(scanResults, emailName)
-        inputFile.getSignatureList(emailFilePath)
+        # inputFile.getSignatureList(emailFilePath) #gets the authentication-results from header if they exist, otherwise it will retrieve 'received-spf', 'dkim-signature', etc.
+        output.writeToCSV(scanResults, emailName)
     elif option == '2':
         deleteDownloadedAttachments()
         exit()
