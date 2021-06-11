@@ -1,12 +1,31 @@
 To do's prototype:
-- Create output class based on dummy data
-    * concatenate results
-    
-- Extract attachment from mail, scan, and parse results
 
-- Expand menu 
-    * Analyse URLs
-    * Analyse attachment
-    * View results  (?)
+- CLI schoner maken voor demonstratie
+- Geschikte email uitzoeken voor demonstratie
+    * Genoeg URLs
+    * Een aantal nieuwe URLs erin zetten zodat de API die gaat scannen
+
+- Tussentijds excel updaten voor het geval er een crash is.
+- Andere API's uitzoeken en documenteren (beschikbaarheid, kosten)
+- Advies bijscherpen over programma
+- URL updaten
+
+- Presentatie maken
+    * Introduction
+    * Table of contents
+    * Problem definition
+    * Research questions
+    * Email forensics in short
+    * Email forensics within Ordina
+    * Time saved
+    * Prototype design
+    * Prototype results
+    * Conclusion
+        + Research questions
+        + Time saved
+        + etc.
+    * Advice
+    * Questions?
     
-- Scan header for received-spf, authentication-results, dkim-signature, etc.
+- Footnote thesis aanpassen
+- Comments in code plaatsen

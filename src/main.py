@@ -78,14 +78,10 @@ while True:
                 scanResults[key] = value
         signatureDict = inputFile.getSignatureList(emailFilePath) #gets the authentication-results from header if they exist, otherwise it will retrieve 'received-spf', 'dkim-signature', etc.
         output.writeToCSV(scanResults, emailName)
-        output.writeToCSV(signatureDict, emailName, append = True)
+        output.writeToCSV(signatureDict, emailName, append = True) #these results aren't in the same dict format as the VT json responses, which is why it is added seperately.
     elif option == '2':
         deleteDownloadedAttachments()
         exit()
     else:
-        ("Invalid option, please try again.\n")
-# print (emailArray)
-# print (urlArray)
-print (urlBodyArray)
-# test = input("press something to continue")
-# analyser.jsonPrint(inputFile.headerDict)
+        print("Invalid option, please try again.\n")
+        
