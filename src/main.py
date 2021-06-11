@@ -67,7 +67,7 @@ while True:
         except FileNotFoundError:
             print("File not found, please try again.")
             emailFilePath = filedialog.askopenfilename()
-        # emailArray = inputFile.findIPAddressInHeader(emailFilePath)
+        emailArray = inputFile.findIPAddressInHeader(emailFilePath)
         urlBodyArray = inputFile.findURLInBody(emailFilePath)
         print(urlBodyArray)
         attachmentArray = inputFile.getAttachments(emailFilePath) #send attachmentArray to analyser.py in order to analyse this list
@@ -76,8 +76,9 @@ while True:
             attachmentIDList = analyser.analyseAttachments(attachmentArray) #fill in details of analyseAttachments function in analyser.py
             for key, value in analyser.getInfoAttachments(attachmentIDList).items():
                 scanResults[key] = value
-        # inputFile.getSignatureList(emailFilePath) #gets the authentication-results from header if they exist, otherwise it will retrieve 'received-spf', 'dkim-signature', etc.
+        signatureDict = inputFile.getSignatureList(emailFilePath) #gets the authentication-results from header if they exist, otherwise it will retrieve 'received-spf', 'dkim-signature', etc.
         output.writeToCSV(scanResults, emailName)
+        output.writeToCSV(signatureDict, emailName, append = True)
     elif option == '2':
         deleteDownloadedAttachments()
         exit()

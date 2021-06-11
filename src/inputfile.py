@@ -51,7 +51,6 @@ class InputFile:
             if type(self.body) == list:
                 self.bodyTest = [payload for payload in self.body if "image" not in str(payload["Content-Type"])]
             if self.emailMessage.is_multipart():
-                print(len(self.bodyTest))
                 for payload in self.bodyTest:
                     try:
                         self.body = payload.get_payload()
@@ -102,14 +101,14 @@ class InputFile:
         file.close()
         for key, value in emailMessage.items():
             if key.lower() in self.signatureFilterList:
-                signatureListArray.append((key, value))
+                signatureListArray.append((key, str(value)))
             if key.lower() == 'authentication-results':
                 signatureListArray.clear()
-                signatureListArray.append((key, value))
+                signatureListArray.append((key, str(value)))
                 break
-                
-        
-        print(signatureListArray)
+        signatureDict = {} 
+        signatureDict = self.convertToDict(signatureListArray, signatureDict)
+        return signatureDict
     
     def findContentInHeader(self, regexFilter, contentArray, content):
         """Find content in header based on regex filter. Mainly used to find IP and signatures
