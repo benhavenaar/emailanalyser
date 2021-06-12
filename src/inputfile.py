@@ -32,7 +32,7 @@ class InputFile:
          
     def deconstructEmail(self, emailPath):
         """Deconstructs the email and splits it into header, body, and attachment.
-        Currently get_contant() of email library will be used, if it can't be used because of a KeyError, payload will be loaded
+        Currently get_content() of email library will be used, if it can't be used because of a KeyError, payload will be loaded
         Loading the payload means it is party of a multipart and needs to be deconstructed down. The HTML text part is fetched and
         set to the self.body. This way the email can be read/URLs can be found within the string. 
         Because of this, the email content doesn't need to be decoded from base64 as the email library handles this part.
