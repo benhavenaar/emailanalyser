@@ -23,3 +23,4 @@ It takes `.eml` files and creates an `.xlsx` file in the /src/scanresults folder
 ### To do:
 - Whitelist certain attachment files (.png/.gif... etc.) or not considering macro'd attachments.
 - Make sure to check whether the scanresults folder exists (doesn't exist on github, only locally atm). If not, create it
+- Add scan results to excel whenever a result is found instead of all together at the end. Might make filtering a bit harder, but the file read/filtered at the end again, or completely renewed when all data is found
