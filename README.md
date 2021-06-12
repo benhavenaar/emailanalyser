@@ -17,8 +17,9 @@ It is adviced that you run this script within a save environment, such as a VM.
 This is due to the fact that it automatically downloads attachments and saves it to the `attachments` folder. 
 Upon closing the program (by selecting option 2) it will delete all downloaded attachments.
 
+## Input/Output
+It takes `.eml` files and creates an `.xlsx` file in the /src/scanresults folder. The `.xlsx` file consists of the found and scanned URLs in the body of the email. Besides that, authentication results/signatures are saved in this excel file beneath the table. The table is ordered by the 'malicious' column. 
+
 ### To do:
-- Collect the list of attachments and analyse/scan these with the API. Currently it just downloads the attachments
-- Filter the header contents and retrieve the "received-spf" and "authentication-results" items
-- Clean up the menu/main.py
 - Whitelist certain attachment files (.png/.gif... etc.) or not considering macro'd attachments.
+- Make sure to check whether the scanresults folder exists (doesn't exist on github, only locally atm). If not, create it
