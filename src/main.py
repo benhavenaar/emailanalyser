@@ -69,6 +69,7 @@ while True:
             emailFilePath = filedialog.askopenfilename()
         emailArray = inputFile.findIPAddressInHeader(emailFilePath)
         urlBodyArray = inputFile.findURLInBody(emailFilePath)
+        print("URLs found in body:\n-----------------------------------")
         print(urlBodyArray)
         attachmentArray = inputFile.getAttachments(emailFilePath) #send attachmentArray to analyser.py in order to analyse this list
         scanResults = analyser.analyseURL(urlBodyArray)
@@ -77,8 +78,8 @@ while True:
             for key, value in analyser.getInfoAttachments(attachmentIDList).items():
                 scanResults[key] = value
         signatureDict = inputFile.getSignatureList(emailFilePath) #gets the authentication-results from header if they exist, otherwise it will retrieve 'received-spf', 'dkim-signature', etc.
-        output.writeToCSV(scanResults, emailName)
-        output.writeToCSV(signatureDict, emailName, append = True) #these results aren't in the same dict format as the VT json responses, which is why it is added seperately.
+        output.writeToCSV(scanResults, signatureDict, emailName)
+        # output.writeToCSV(signatureDict, emailName, append = True) #these results aren't in the same dict format as the VT json responses, which is why it is added seperately.
     elif option == '2':
         deleteDownloadedAttachments()
         exit()

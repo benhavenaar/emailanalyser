@@ -55,7 +55,6 @@ class Analyser:
         """
         resultList = []
         for url in urlList:
-            # print("Trying to scan: ", url)
             try:
                 response = requests.post(self.urlAnalysis, 
                                          headers=self.headers, 
@@ -68,7 +67,7 @@ class Analyser:
                     self._raise_exception(response)
                 
                 url_id = base64.urlsafe_b64encode(url.encode()).decode().strip("=")
-                print("\n-----------------------------------\n","trying to scan: ", url)
+                print("\n-----------------------------------\n","Trying to scan: \n", url, '\n')
                 response = requests.get(self.urlAnalysis + '/' + url_id,
                                         headers = self.headers,
                                         timeout=timeout)
@@ -86,7 +85,7 @@ class Analyser:
                 result = json.loads(response.text)
                 resultList.append(self.extractUsefulData(result))
                 newDict[response.json()['data']['attributes']['last_final_url']] = response.json()['data']['attributes']['last_analysis_stats']
-                print(self.extractUsefulData(result))
+                self.jsonPrint(self.extractUsefulData(result))
                 
             except requests.exceptions.RequestException as error:
                 print(error)
@@ -95,12 +94,6 @@ class Analyser:
             except IndexError:
                 print("Error: No URL found in body of email")
         
-        # res_list = []
-        # for i in range(len(resultList)):
-            # if resultList[i] not in resultList[i + 1:]:
-                # res_list.append(resultList[i])
-        # print(newDict)
-        # return res_list
         return newDict
                 
     def analyseAttachments(self, attachmentList, attachmentIDList = [], timeout=None):
@@ -113,7 +106,6 @@ class Analyser:
             Scan results of the scanned attachment
         """
         attachmentIDList.clear()
-        # attachmentList = "attachments/" + "scan_results.txt"
         for attachment in attachmentList: 
             attachment = 'attachments/' + attachment
             if not os.path.isfile(attachment):
@@ -183,7 +175,7 @@ class Analyser:
                     self._raise_exception(response)
                
                 attachmentScanResultList['file_'+attachmentID] = response.json()['data']['attributes']['stats']
-                # attachmentScanResultList.append(response.json()['data']['attributes']['stats'])
+
                 
             except requests.exceptions.RequestException as error:
                 print(error)
@@ -192,7 +184,7 @@ class Analyser:
         print(attachmentScanResultList)
         return attachmentScanResultList
     
-    #json respone text is a cluttered dict, this function helps to make it more readible. Will be deprecated once final project is done.
+
     def jsonPrint(self, obj):
         """Response text is cluttered, this function will make the output more readable. 
         
@@ -205,7 +197,7 @@ class Analyser:
         text = json.dumps(obj, sort_keys=True, indent=4)
         print(text)
     
-    #the json response is filled with a lot of data, the most useful keys+values out of the dictionary are extracted here.
+
     def extractUsefulData(self, response):
         """Response text is filled with a lot of data. Only last_analysis_stats and last_final_url are extracted.
         There's more useful data inside this response, check out https://developers.virustotal.com/v3.0/reference#url-object for more information

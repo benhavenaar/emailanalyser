@@ -143,7 +143,7 @@ class InputFile:
             else:
                 contentArray.append(contentValueSplit)
                 duplicateItems[contentValueSplit] = contentNumber = len(contentArray)-1
-        # print('filtering images entries with .png')
+        print('Filtering images entries.')
         for filter in self.filterArray:
             contentArray = [item for item in contentArray if filter not in item]
        
