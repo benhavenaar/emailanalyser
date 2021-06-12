@@ -103,7 +103,7 @@ class InputFile:
 
         for line in content:
             for item in range(len(line)):
-                if regexFilter.search(line[item]) == None:  # Breaks with multiple Delivered-To because the second argument will be an array
+                if regexFilter.search(line[item]) == None:
                     pass
                 else:
                     regexMatches = regexFilter.findall(line[item])
