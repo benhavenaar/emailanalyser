@@ -34,13 +34,12 @@ class InputFile:
         emailMessage = self.getEmailFromFile(emailPath);
         header = self.headerParser.parsestr(emailMessage.as_string())
         body = emailMessage.get_body()
-
+        
         try:
             body = body.get_content()  # Try to get body content
         except KeyError:
-            body = body.get_payload()
+            body = emailMessage.get_payload()
             body_payloads = []
-
             if type(body) == list:
                 body_payloads = [payload for payload in body if "image" not in str(payload["Content-Type"])]
 
@@ -51,12 +50,12 @@ class InputFile:
                         body = payload.get_payload()
                     except AttributeError:
                         body = emailMessage.get_payload()
-
         if type(body) == list:
             for item in body:
                 if "html" in str(item["Content-Type"]):
+                    print("hoi")
                     body = item.get_content()
-
+        print(body)
         return ParsedMail(header, body)
 
     def findIPAddressInHeader(self, emailPath):

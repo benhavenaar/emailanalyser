@@ -18,7 +18,10 @@ class Output:
     def writeToCSV(self, scanResultList, signatureDict, fileName):
         fileName = self.uniqueFile('scanresult', fileName, 'xlsx')
         df = pd.DataFrame(data=scanResultList).T
-        df = df.sort_values(by=['malicious', 'suspicious'], ascending=False)
+        try: 
+            df = df.sort_values(by=['malicious', 'suspicious'], ascending=False)
+        except:
+            pass
         df.to_excel(os.path.join('scanresults', fileName))
         appendData = op.load_workbook(os.path.join('scanresults', fileName))
         appendDataSheet = appendData.get_sheet_by_name('Sheet1')
