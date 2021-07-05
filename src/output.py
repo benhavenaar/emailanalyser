@@ -29,22 +29,12 @@ class Output:
             for item in str(value).split(';'):
                 appendDataSheet.append([key, item])
         appendData.save(os.path.join('scanresults', fileName))
-        appendData.close()
-     
-    def writeScanResults(self, scanResultList, emailName):
-        """Deprecated function. Writes scan results to .txt file. Data is now written to xlsx
-        """
-        with open(os.path.join('scanresults',self.uniqueFile("scan_results",emailName, "txt")), "w") as f:
-            f.write("Scan results of {}\n--------------------------------------------------\n".format(emailName))
-            for i in scanResultList:
-                for key, value in i.items():
-                    f.write("{} = {}\n".format(str(key), str(value)))
-                f.write('\n')
+        appendData.close() 
             
     def uniqueFile(self, baseName, emailName, ext):
         actualName = "%s_%s.%s" % (baseName, emailName, ext)
         c = itertools.count()
-        while os.path.exists('scanresults/'+actualName):
+        while os.path.exists(os.path.join('scanresults', actualName)):
             actualName = "%s_%s (%d).%s" % (baseName, emailName, next(c), ext)
         return actualName   
 

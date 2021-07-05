@@ -62,7 +62,7 @@ class Analyser:
                                          timeout=timeout)
         
                 if response.status_code == 429:
-                    raise Exception("API request quota reach, please wait...")
+                    raise Exception("API request quota reached, please wait...")
                 if response.status_code != 200:
                     self._raise_exception(response)
                 
@@ -72,8 +72,12 @@ class Analyser:
                                         headers = self.headers,
                                         timeout=timeout)
                                         
-                if response.status_code != 200: 
-                    self._raise_exception(response)
+                while response.status_code != 200:
+                    response = requests.get(self.urlAnalysis + '/' + url_id,
+                                        headers = self.headers,
+                                        timeout=timeout)
+                #if response.status_code != 200: 
+                #    self._raise_exception(response)
                  
                 while not response.json()['data']['attributes']['last_analysis_results']:
                     response = requests.get(self.urlAnalysis + '/' + url_id,
