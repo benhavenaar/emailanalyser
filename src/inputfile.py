@@ -34,6 +34,7 @@ class InputFile:
         emailMessage = self.getEmailFromFile(emailPath);
         header = self.headerParser.parsestr(emailMessage.as_string())
         body = emailMessage.get_body()
+        bodyList = []
         
         try:
             body = body.get_content()  # Try to get body content
@@ -44,17 +45,22 @@ class InputFile:
                 body_payloads = [payload for payload in body if "image" not in str(payload["Content-Type"])]
 
             if emailMessage.is_multipart():
-                for payload in body_payloads:
+                for part in emailMessage.walk():
+                    if "html" in str(part["Content-Type"]):
+                        bodyList.append(part.get_content())
+                if bodyList:
+                    body = ' '.join(bodyList)
+                '''for payload in body_payloads:
                     try:
                         # TODO: If multiple payload's are found only the last one will assigned to body
                         body = payload.get_payload()
                     except AttributeError:
-                        body = emailMessage.get_payload()
+                        body = emailMessage.get_payload()'''
         if type(body) == list:
             for item in body:
                 if "html" in str(item["Content-Type"]):
-                    print("hoi")
                     body = item.get_content()
+        yes = ParsedMail(header, body)
         return ParsedMail(header, body)
 
     def findIPAddressInHeader(self, emailPath):
