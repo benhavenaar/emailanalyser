@@ -1,4 +1,5 @@
-pypiwin32
 requests
 pandas
 openpyxl
+tkinter
+pypiwin32
