@@ -15,8 +15,11 @@ class Output:
     def __init__(self): 
         self.textFile = None
      
-    def writeToCSV(self, scanResultList, signatureDict, fileName):
-        fileName = self.uniqueFile('scanresult', fileName, 'xlsx')
+    def writeToCSV(self, scanResultList, signatureDict, fileName, append=False):
+        if not append:
+            fileName = self.uniqueFile('scanresult', fileName, 'xlsx')
+        else:
+            fileName = 'temporary_result_' + fileName + '.xlsx'
         df = pd.DataFrame(data=scanResultList).T
         try: 
             df = df.sort_values(by=['malicious', 'suspicious'], ascending=False)
@@ -37,4 +40,13 @@ class Output:
         while os.path.exists(os.path.join('scanresults', actualName)):
             actualName = "%s_%s (%d).%s" % (baseName, emailName, next(c), ext)
         return actualName   
-
+        
+    def temporaryWriteToCSV(self, result, fileName):
+        fileName = fileName + '.csv'
+        df = pd.DataFrame(data=result).T
+        try:
+            df = df.sort_values(by=['malicious', 'suspicious'], ascending=False)
+        except:
+            pass
+        df.to_csv(os.path.join('scanresults', fileName), mode='a', index = False, header=None)
+        

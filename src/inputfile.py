@@ -60,7 +60,6 @@ class InputFile:
             for item in body:
                 if "html" in str(item["Content-Type"]):
                     body = item.get_content()
-        yes = ParsedMail(header, body)
         return ParsedMail(header, body)
 
     def findIPAddressInHeader(self, emailPath):

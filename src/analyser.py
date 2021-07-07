@@ -41,7 +41,7 @@ class Analyser:
      
     #function to analyse URLs, it encodes the url in the list to a base64 code and pastes it to the virustotal api url for it to scan it.
     #The returned response is sent back to the object that called this function.    
-    def analyseURL(self, urlList, timeout=None, newDict = {}):
+    def analyseURL(self, url, timeout=None, newDict = {}):
         """Retrieve information about URLs. If the URL was scanned before it will return the results immediatly.
         If the URL isn't found in the VT database it will scan it. Results may take a few seconds to return. The program will wait for these results
         Multithreading might solve some issue to not wait too long on results.
@@ -53,50 +53,47 @@ class Analyser:
         Returns:
             A list with dicts of the scan results
         """
-        resultList = []
-        for url in urlList:
-            try:
-                response = requests.post(self.urlAnalysis, 
-                                         headers=self.headers, 
-                                         data={"url":url}, 
-                                         timeout=timeout)
-        
-                if response.status_code == 429:
-                    raise Exception("API request quota reached, please wait...")
-                if response.status_code != 200:
-                    self._raise_exception(response)
-                
-                url_id = base64.urlsafe_b64encode(url.encode()).decode().strip("=")
-                print("\n-----------------------------------\n","Trying to scan: \n", url, '\n')
-                response = requests.get(self.urlAnalysis + '/' + url_id,
-                                        headers = self.headers,
-                                        timeout=timeout)
-                                        
-                while response.status_code != 200:
-                    response = requests.get(self.urlAnalysis + '/' + url_id,
-                                        headers = self.headers,
-                                        timeout=timeout)
-                #if response.status_code != 200: 
-                #    self._raise_exception(response)
-                 
-                while not response.json()['data']['attributes']['last_analysis_results']:
-                    response = requests.get(self.urlAnalysis + '/' + url_id,
-                                            headers=self.headers,
-                                            timeout=timeout)
-                    print("Waiting for API response...")
-                    time.sleep(3)
-                
-                result = json.loads(response.text)
-                resultList.append(self.extractUsefulData(result))
-                newDict[response.json()['data']['attributes']['last_final_url']] = response.json()['data']['attributes']['last_analysis_stats']
-                self.jsonPrint(self.extractUsefulData(result))
-                
-            except requests.exceptions.RequestException as error:
-                print(error)
-                exit(1)
+        try:
+            response = requests.post(self.urlAnalysis, 
+                                     headers=self.headers, 
+                                     data={"url":url}, 
+                                     timeout=timeout)
+    
+            if response.status_code == 429:
+                raise Exception("API request quota reached, please wait...")
+            if response.status_code != 200:
+                self._raise_exception(response)
             
-            except IndexError:
-                print("Error: No URL found in body of email")
+            url_id = base64.urlsafe_b64encode(url.encode()).decode().strip("=")
+            print("\n-----------------------------------\n","Trying to scan: \n", url, '\n')
+            response = requests.get(self.urlAnalysis + '/' + url_id,
+                                    headers = self.headers,
+                                    timeout=timeout)
+                                    
+            while response.status_code != 200:
+                response = requests.get(self.urlAnalysis + '/' + url_id,
+                                    headers = self.headers,
+                                    timeout=timeout)
+            #if response.status_code != 200: 
+            #    self._raise_exception(response)
+             
+            while not response.json()['data']['attributes']['last_analysis_results']:
+                response = requests.get(self.urlAnalysis + '/' + url_id,
+                                        headers=self.headers,
+                                        timeout=timeout)
+                print("Waiting for API response...")
+                time.sleep(3)
+            
+            result = json.loads(response.text)
+            newDict[response.json()['data']['attributes']['last_final_url']] = response.json()['data']['attributes']['last_analysis_stats']
+            self.jsonPrint(self.extractUsefulData(result))
+            
+        except requests.exceptions.RequestException as error:
+            print(error)
+            exit(1)
+        
+        except IndexError:
+            print("Error: No URL found in body of email")
         
         return newDict
                 
