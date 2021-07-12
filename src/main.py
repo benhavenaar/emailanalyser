@@ -78,8 +78,13 @@ while True:
             for key, value in analyser.getInfoAttachments(attachmentIDList).items():
                 scanResults[key] = value
         signatureDict = inputFile.getSignatureList(emailFilePath) #gets the authentication-results from header if they exist, otherwise it will retrieve 'received-spf', 'dkim-signature', etc.
+        first = True
         for url in urlBodyArray:
-            scanResultList = analyser.analyseURL(url)
+            if first:
+                scanResultList = analyser.analyseURL(url, clearDict = True)
+                first = False
+            else:
+                scanResultList = analyser.analyseURL(url)
             output.writeToCSV(scanResultList, signatureDict, emailName, True)
         output.writeToCSV(scanResultList, signatureDict, emailName, False)
         # output.writeToCSV(signatureDict, emailName, append = True) #these results aren't in the same dict format as the VT json responses, which is why it is added seperately.
