@@ -41,7 +41,7 @@ class Analyser:
      
     #function to analyse URLs, it encodes the url in the list to a base64 code and pastes it to the virustotal api url for it to scan it.
     #The returned response is sent back to the object that called this function.    
-    def analyseURL(self, url, timeout=None, newDict = {}, clearDict = False):
+    def analyseURL(self, url, timeout=None, newDict = {}):
         """Retrieve information about URLs. If the URL was scanned before it will return the results immediatly.
         If the URL isn't found in the VT database it will scan it. Results may take a few seconds to return. The program will wait for these results
         Multithreading might solve some issue to not wait too long on results.
@@ -53,9 +53,6 @@ class Analyser:
         Returns:
             A list with dicts of the scan results
         """
-        if clearDict:
-            newDict = newDict.clear()
-            newDict = {}
         try:
             response = requests.post(self.urlAnalysis, 
                                      headers=self.headers, 
@@ -90,7 +87,7 @@ class Analyser:
             result = json.loads(response.text)
             newDict[response.json()['data']['attributes']['last_final_url']] = response.json()['data']['attributes']['last_analysis_stats']
             self.jsonPrint(self.extractUsefulData(result))
-            
+
         except requests.exceptions.RequestException as error:
             print(error)
             exit(1)
