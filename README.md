@@ -1,9 +1,9 @@
 # emailanalyser
-An email analyser script that will use online API's to determine if an email contains phishing or viruses
+An email analyser script that uses online API's to determine if an email contains phishing or viruses. All rights are reserved by Ordina.
 
-## How to use
-You need python 3.8+ in order to run this program
-Run the command `python -m pip install -r requirements.txt` located in the src file
+## Install
+A few steps are necessary to install all requirements for this program.
+
 1. Clone the `requirements.sh` and `emailanalyser.sh` file
 2. Create a VirusTotal account and collect your API key
 3. Edit the requirements.sh file and change `<PASTE VT API KEY BETWEEN QUOTES>` to your API key
@@ -21,5 +21,5 @@ This is due to the fact that it automatically downloads attachments and saves it
 Upon closing the program (by selecting option 2) it will delete all downloaded attachments.
 
 ## Input/Output
-It takes `.eml` files and creates an `.xlsx` file in the /src/scanresults folder. The `.xlsx` file consists of the found and scanned URLs in the body of the email. Besides that, authentication results/signatures are saved in this excel file beneath the table. The table is ordered by the 'malicious' column. 
+It takes `.eml` files and creates an `.xlsx` file in the /src/scanresults folder. The `.xlsx` file consists of the found and scanned URLs in the body of the email. Besides that, authentication results/signatures are saved in this excel file beneath the table. The table is ordered by the 'malicious' and 'suspicious' column. 
 
