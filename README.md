@@ -23,3 +23,7 @@ Upon closing the program (by selecting option 2) it will delete all downloaded a
 ## Input/Output
 It takes `.eml` files and creates an `.xlsx` file in the /src/scanresults folder. The `.xlsx` file consists of the found and scanned URLs in the body of the email. Besides that, authentication results/signatures are saved in this excel file beneath the table. The table is ordered by the 'malicious' and 'suspicious' column. 
 
+## Errors
+`ModuleNotFoundError: no module named 'constants'`. This error will occur when the `constants.py` file doesn't exist. This file containts the VT API key.
+
+Create the file with the contents: `VT_API_KEY = '<api key here>'` and replace `<api key here>` with your personal api key. 
