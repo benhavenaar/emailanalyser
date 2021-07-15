@@ -4,7 +4,7 @@ An email analyser script that will use online API's to determine if an email con
 ## How to use
 You need python 3.8+ in order to run this program
 Run the command `python -m pip install -r requirements.txt` located in the src file
-1. Clone the repository
+1. Clone the `requirements.sh` and `emailanalyser.sh` file
 2. Create a VirusTotal account and collect your API key
 3. Edit the requirements.sh file and change `<PASTE VT API KEY BETWEEN QUOTES>` to your API key
 4. Make the shell scripts executable with `chmod a+x *.sh`
